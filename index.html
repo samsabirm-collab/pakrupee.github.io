@@ -57,11 +57,13 @@
             text-decoration: none;
             color: var(--text);
         }
-        .logo-img {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
+       .logo-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    background: transparent;
         }
         .logo-text {
             font-size: 24px;
@@ -316,20 +318,19 @@
             50% { transform: translateY(-20px) scale(1.5); opacity: 1; }
         }
         
-        .hero-coin {
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            object-fit: cover;
-            position: relative;
-            z-index: 10;
-            animation: coin-spin 8s linear infinite;
-            filter: drop-shadow(0 0 30px rgba(212, 165, 116, 0.6)) 
-                    drop-shadow(0 0 60px rgba(0, 212, : 170, 0.3))
-                    drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
-            -webkit-mask-image: radial-gradient(circle, white 100%, transparent 100%);
-            mask-image: radial-gradient(circle, white 100%, transparent 100%);
-        }
+.hero-coin {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+    z-index: 10;
+    animation: coin-spin 8s linear infinite;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 0 30px rgba(212, 165, 116, 0.6)) 
+            drop-shadow(0 0 60px rgba(0, 212, 170, 0.3))
+            drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
         
         .coin-edge {
             position: absolute;
