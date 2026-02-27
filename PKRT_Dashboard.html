@@ -816,11 +816,156 @@
             border-radius: 2px;
         }
 
+        /* POSTING TRACKER STYLES */
+        .posting-tracker {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .tracker-progress {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#00d4aa 0%, #1a1a2e 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            position: relative;
+        }
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #1a1a2e;
+            border-radius: 50%;
+        }
+        .progress-circle span {
+            position: relative;
+            z-index: 1;
+        }
+        .progress-text h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .progress-text p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #00d4aa, #00a080);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 170, 0.4);
+        }
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .platform-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .platform-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .platform-header.twitter { background: linear-gradient(135deg, rgba(29, 161, 242, 0.2), rgba(13, 142, 207, 0.1)); border-bottom: 2px solid #1da1f2; }
+        .platform-header.telegram { background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(0, 102, 153, 0.1)); border-bottom: 2px solid #0088cc; }
+        .platform-header.discord { background: linear-gradient(135deg, rgba(88, 101, 242, 0.2), rgba(71, 82, 196, 0.1)); border-bottom: 2px solid #5865f2; }
+        .platform-header.facebook { background: linear-gradient(135deg, rgba(24, 119, 242, 0.2), rgba(13, 94, 207, 0.1)); border-bottom: 2px solid #1877f2; }
+        .platform-header.reddit { background: linear-gradient(135deg, rgba(255, 69, 0, 0.2), rgba(204, 55, 0, 0.1)); border-bottom: 2px solid #ff4500; }
+        .platform-header.medium { background: linear-gradient(135deg, rgba(0, 171, 108, 0.2), rgba(0, 143, 91, 0.1)); border-bottom: 2px solid #00ab6c; }
+        .platform-header.linkedin { background: linear-gradient(135deg, rgba(0, 119, 181, 0.2), rgba(0, 88, 133, 0.1)); border-bottom: 2px solid #0077b5; }
+        .platform-header.bitcointalk { background: linear-gradient(135deg, rgba(247, 147, 26, 0.2), rgba(199, 120, 0, 0.1)); border-bottom: 2px solid #f7931a; }
+        .platform-header a {
+            font-size: 12px;
+            color: #00d4aa;
+            text-decoration: none;
+        }
+        .task-list {
+            padding: 12px 16px;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+            font-size: 13px;
+            color: #94a3b8;
+            transition: color 0.3s;
+        }
+        .task-item:hover { color: #fff; }
+        .task-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00d4aa;
+            cursor: pointer;
+        }
+        .task-item input:checked + span,
+        .task-item:has(input:checked) {
+            color: #00d4aa;
+            text-decoration: line-through;
+        }
+        .tracker-alert {
+            display: none;
+            background: rgba(0, 212, 170, 0.2);
+            border: 1px solid #00d4aa;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            margin-top: 20px;
+            color: #00d4aa;
+            font-weight: 600;
+        }
+        .tracker-alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
             .title { font-size: 32px; }
             .buy-buttons { flex-direction: column; align-items: center; }
             .goal-stats { grid-template-columns: repeat(2, 1fr); }
             .wallet-grid { grid-template-columns: 1fr; }
+            .tracker-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -1054,8 +1199,134 @@
             </a>
         </div>
 
-        <!-- Social Media Tracker -->
-        <h2 class="section-title">📱 Social Media Tracker</h2>
+        <!-- Social Media Posting Tracker -->
+        <h2 class="section-title">📱 Social Media Posting Tracker</h2>
+        <div class="posting-tracker">
+            <div class="tracker-header">
+                <div class="tracker-progress">
+                    <div class="progress-circle" id="postingProgress">
+                        <span id="postingPercent">0%</span>
+                    </div>
+                    <div class="progress-text">
+                        <h3>Today's Progress</h3>
+                        <p id="postingCount">0 / 24 tasks completed</p>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveProgress()">💾 Save Progress</button>
+            </div>
+            
+            <div class="tracker-grid">
+                <!-- TWITTER -->
+                <div class="platform-section">
+                    <div class="platform-header twitter">
+                        <span>𝕏</span> Twitter/X
+                        <a href="https://x.com/PakRupeeToken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="twitter-intro" onchange="updateProgress()"> Post Introduction tweet</label>
+                        <label class="task-item"><input type="checkbox" data-task="twitter-thread" onchange="updateProgress()"> Post Info Thread</label>
+                        <label class="task-item"><input type="checkbox" data-task="twitter-engage" onchange="updateProgress()"> Engage with 10 crypto accounts</label>
+                        <label class="task-item"><input type="checkbox" data-task="twitter-reply" onchange="updateProgress()"> Reply to all mentions</label>
+                    </div>
+                </div>
+                
+                <!-- TELEGRAM -->
+                <div class="platform-section">
+                    <div class="platform-header telegram">
+                        <span>📱</span> Telegram
+                        <a href="https://t.me/pakrupeetoken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="tg-welcome" onchange="updateProgress()"> Pin welcome message</label>
+                        <label class="task-item"><input type="checkbox" data-task="tg-share" onchange="updateProgress()"> Share in 5 crypto groups</label>
+                        <label class="task-item"><input type="checkbox" data-task="tg-announce" onchange="updateProgress()"> Post announcement</label>
+                    </div>
+                </div>
+                
+                <!-- DISCORD -->
+                <div class="platform-section">
+                    <div class="platform-header discord">
+                        <span>💬</span> Discord
+                        <a href="https://discord.gg/vVW5BS4Yzj" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="dc-welcome" onchange="updateProgress()"> Setup welcome channel</label>
+                        <label class="task-item"><input type="checkbox" data-task="dc-rules" onchange="updateProgress()"> Post rules & info</label>
+                        <label class="task-item"><input type="checkbox" data-task="dc-announce" onchange="updateProgress()"> Post announcement</label>
+                    </div>
+                </div>
+                
+                <!-- FACEBOOK -->
+                <div class="platform-section">
+                    <div class="platform-header facebook">
+                        <span>📘</span> Facebook
+                        <a href="https://facebook.com/pakrupeetoken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="fb-cover" onchange="updateProgress()"> Add cover photo</label>
+                        <label class="task-item"><input type="checkbox" data-task="fb-intro" onchange="updateProgress()"> Post introduction</label>
+                        <label class="task-item"><input type="checkbox" data-task="fb-share" onchange="updateProgress()"> Share to 5 groups</label>
+                    </div>
+                </div>
+                
+                <!-- REDDIT -->
+                <div class="platform-section">
+                    <div class="platform-header reddit">
+                        <span>🔴</span> Reddit
+                        <a href="https://reddit.com/r/PakRupeeToken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="rd-sub" onchange="updateProgress()"> Create subreddit</label>
+                        <label class="task-item"><input type="checkbox" data-task="rd-post" onchange="updateProgress()"> Post announcement</label>
+                        <label class="task-item"><input type="checkbox" data-task="rd-crypto" onchange="updateProgress()"> Post in r/cryptocurrency</label>
+                    </div>
+                </div>
+                
+                <!-- MEDIUM -->
+                <div class="platform-section">
+                    <div class="platform-header medium">
+                        <span>📝</span> Medium
+                        <a href="https://pakrupeetoken.medium.com" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="med-article" onchange="updateProgress()"> Publish main article ✓</label>
+                        <label class="task-item"><input type="checkbox" data-task="med-share" onchange="updateProgress()"> Share article on socials</label>
+                    </div>
+                </div>
+                
+                <!-- LINKEDIN -->
+                <div class="platform-section">
+                    <div class="platform-header linkedin">
+                        <span>💼</span> LinkedIn
+                        <a href="https://linkedin.com/company/pakrupeetoken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="li-page" onchange="updateProgress()"> Complete company page</label>
+                        <label class="task-item"><input type="checkbox" data-task="li-post" onchange="updateProgress()"> Post introduction</label>
+                        <label class="task-item"><input type="checkbox" data-task="li-connect" onchange="updateProgress()"> Connect with 10 people</label>
+                    </div>
+                </div>
+                
+                <!-- BITCOINTALK -->
+                <div class="platform-section">
+                    <div class="platform-header bitcointalk">
+                        <span>₿</span> BitcoinTalk
+                        <a href="https://bitcointalk.org/index.php?topic=5575853.new#new" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="bt-ann" onchange="updateProgress()"> Create ANN thread ✓</label>
+                        <label class="task-item"><input type="checkbox" data-task="bt-bump" onchange="updateProgress()"> Bump thread (reply)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracker-alert" id="trackerAlert">
+                ✅ Progress saved!
+            </div>
+        </div>
+
+        <!-- Social Media Quick Links -->
+        <h2 class="section-title">🔗 Quick Access Links</h2>
         <div class="links-grid">
             <a href="https://x.com/PakRupeeToken" target="_blank" class="link-card">
                 <div class="link-icon" style="background: linear-gradient(135deg, #1da1f2, #0d8ecf);">𝕏</div>
@@ -1092,7 +1363,7 @@
                     <p>r/PakRupeeToken</p>
                 </div>
             </a>
-            <a href="https://medium.com/@pakrupeetoken" target="_blank" class="link-card">
+            <a href="https://pakrupeetoken.medium.com/introducing-pakrupee-token-pkrt-the-future-of-remittances-for-pakistan-d717f3812875" target="_blank" class="link-card">
                 <div class="link-icon" style="background: linear-gradient(135deg, #00ab6c, #008f5b);">📝</div>
                 <div class="link-content">
                     <h3>Medium</h3>
@@ -1106,7 +1377,7 @@
                     <p>/company/pakrupeetoken</p>
                 </div>
             </a>
-            <a href="https://bitcointalk.org/index.php" target="_blank" class="link-card">
+            <a href="https://bitcointalk.org/index.php?topic=5575853.new#new" target="_blank" class="link-card">
                 <div class="link-icon" style="background: linear-gradient(135deg, #f7931a, #c77800);">₿</div>
                 <div class="link-content">
                     <h3>BitcoinTalk</h3>
@@ -1602,6 +1873,52 @@
 
         // Start the dashboard
         document.addEventListener('DOMContentLoaded', init);
+
+        // ==========================================
+        // POSTING TRACKER - Progress Saving
+        // ==========================================
+        const TOTAL_TASKS = 24;
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.task-item input[type="checkbox"]:checked').length;
+            const percent = Math.round((checked / TOTAL_TASKS) * 100);
+            
+            // Update progress circle
+            const circle = document.getElementById('postingProgress');
+            circle.style.background = `conic-gradient(#00d4aa ${percent}%, #1a1a2e ${percent}%)`;
+            document.getElementById('postingPercent').textContent = percent + '%';
+            document.getElementById('postingCount').textContent = `${checked} / ${TOTAL_TASKS} tasks completed`;
+        }
+
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+            const progress = {};
+            checkboxes.forEach(cb => {
+                progress[cb.dataset.task] = cb.checked;
+            });
+            localStorage.setItem('pkrt_posting_progress', JSON.stringify(progress));
+            
+            // Show alert
+            const alert = document.getElementById('trackerAlert');
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 2000);
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('pkrt_posting_progress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                Object.keys(progress).forEach(task => {
+                    const cb = document.querySelector(`input[data-task="${task}"]`);
+                    if (cb) cb.checked = progress[task];
+                });
+            }
+            updateProgress();
+        }
+
+        // Load progress on page load
+        document.addEventListener('DOMContentLoaded', loadProgress);
     </script>
 </body>
 </html>
