@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <!-- Rose Gold Gradient -->
+    <linearGradient id="roseGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7d0c4"/>
+      <stop offset="25%" stop-color="#e8b4a0"/>
+      <stop offset="50%" stop-color="#d4a574"/>
+      <stop offset="75%" stop-color="#c9956a"/>
+      <stop offset="100%" stop-color="#a67c52"/>
+    </linearGradient>
+
+    <!-- Rose Gold Darker (for depth) -->
+    <linearGradient id="roseGoldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a67c52"/>
+      <stop offset="100%" stop-color="#8b6914"/>
+    </linearGradient>
+
+    <!-- Emerald Green -->
+    <linearGradient id="emeraldGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#50c878"/>
+      <stop offset="50%" stop-color="#00a651"/>
+      <stop offset="100%" stop-color="#006633"/>
+    </linearGradient>
+
+    <!-- Royal Blue -->
+    <linearGradient id="royalBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4169e1"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+
+    <!-- Diamond Sparkle -->
+    <radialGradient id="diamond" cx="30%" cy="30%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f0f0f0"/>
+      <stop offset="100%" stop-color="#d0d0d0"/>
+    </radialGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0.5" dy="0.5" stdDeviation="0.5" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+
+    <!-- Inner Glow -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="0.2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- OUTER EDGE (dark) -->
+  <circle cx="16" cy="16.3" r="15.8" fill="#5a4020"/>
+
+  <!-- MAIN COIN BODY -->
+  <circle cx="16" cy="16" r="15.5" fill="url(#roseGold)" filter="url(#shadow)"/>
+
+  <!-- BRAIDED BORDER - Green segments -->
+  <g fill="url(#emeraldGreen)" opacity="0.9">
+    <circle cx="16" cy="16" r="14.5" fill="none" stroke="url(#emeraldGreen)" stroke-width="1.5" stroke-dasharray="3,3"/>
+  </g>
+
+  <!-- BRAIDED BORDER - Blue segments (offset) -->
+  <g fill="url(#royalBlue)" opacity="0.9">
+    <circle cx="16" cy="16" r="14.5" fill="none" stroke="url(#royalBlue)" stroke-width="1.5" stroke-dasharray="3,3" stroke-dashoffset="3"/>
+  </g>
+
+  <!-- Inner raised ring -->
+  <circle cx="16" cy="16" r="12" fill="none" stroke="#d4a574" stroke-width="0.8"/>
+  <circle cx="16" cy="16" r="11.5" fill="url(#roseGoldDark)" opacity="0.3"/>
+
+  <!-- CENTER AREA -->
+  <circle cx="16" cy="14" r="8" fill="url(#roseGold)"/>
+
+  <!-- CRESCENT MOON (Pakistan style) -->
+  <g filter="url(#glow)">
+    <!-- Moon shape -->
+    <path d="M13 7
+             C9 8.5 7.5 12 7.5 14
+             C7.5 17 9 20 13 21.5
+             C10.5 19.5 9.5 17 9.5 14
+             C9.5 11 10.5 8.5 13 7Z"
+          fill="url(#emeraldGreen)" stroke="#006633" stroke-width="0.3"/>
+    <!-- Green gems on inner curve -->
+    <circle cx="10" cy="10" r="0.5" fill="url(#diamond)"/>
+    <circle cx="9" cy="12" r="0.5" fill="url(#diamond)"/>
+    <circle cx="9" cy="14" r="0.5" fill="url(#diamond)"/>
+    <circle cx="9" cy="16" r="0.5" fill="url(#diamond)"/>
+    <circle cx="10" cy="18" r="0.5" fill="url(#diamond)"/>
+    <!-- White gems on outer curve -->
+    <circle cx="12.5" cy="8" r="0.4" fill="url(#diamond)"/>
+    <circle cx="11.5" cy="9.5" r="0.4" fill="url(#diamond)"/>
+    <circle cx="11" cy="18.5" r="0.4" fill="url(#diamond)"/>
+    <circle cx="12" cy="20" r="0.4" fill="url(#diamond)"/>
+  </g>
+
+  <!-- FIVE-POINTED STAR -->
+  <g filter="url(#glow)">
+    <polygon points="19,8 20,11 23,11 20.5,13 21.5,16 19,14 16.5,16 17.5,13 15,11 18,11"
+             fill="url(#emeraldGreen)" stroke="#006633" stroke-width="0.2"/>
+    <!-- Center emerald -->
+    <circle cx="19" cy="12" r="0.6" fill="url(#emeraldGreen)"/>
+    <!-- Diamond on each point -->
+    <circle cx="19" cy="8" r="0.3" fill="url(#diamond)"/>
+    <circle cx="20" cy="11" r="0.25" fill="url(#diamond)"/>
+    <circle cx="23" cy="11" r="0.25" fill="url(#diamond)"/>
+    <circle cx="21.5" cy="16" r="0.25" fill="url(#diamond)"/>
+    <circle cx="16.5" cy="16" r="0.25" fill="url(#diamond)"/>
+  </g>
+
+  <!-- PKRT TEXT (engraved style) -->
+  <text x="16" y="26"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="5"
+        font-weight="700"
+        fill="#3d2817"
+        fill-opacity="0.8"
+        text-anchor="middle"
+        letter-spacing="0.8">PKRT</text>
+
+  <!-- TOP HIGHLIGHT (shine) -->
+  <ellipse cx="12" cy="10" rx="5" ry="3" fill="white" opacity="0.12"/>
+
+  <!-- RIM HIGHLIGHT -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/>
+</svg>
