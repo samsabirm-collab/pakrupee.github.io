@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKRT - PakRupee Token Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0d3028 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4aa, #00a080);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            box-shadow: 0 10px 40px rgba(0, 212, 170, 0.3);
+        }
+        .title {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4aa, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d4aa, #00a080);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        /* LIVE STATUS INDICATOR */
+        .live-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 12px 20px;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 50px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: #00d4aa;
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+        .live-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00d4aa;
+        }
+        .last-update {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* TRANSACTION ALERT - FULL SCREEN */
+        .tx-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .tx-alert-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .tx-alert-box {
+            background: linear-gradient(135deg, #1a1a2e, #0d3028);
+            border: 3px solid #00d4aa;
+            border-radius: 24px;
+            padding: 40px 60px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s;
+            box-shadow: 0 0 60px rgba(0, 212, 170, 0.5);
+        }
+        .tx-alert-overlay.show .tx-alert-box {
+            transform: scale(1);
+        }
+        .tx-alert-icon {
+            font-size: 80px;
+            animation: bounce 0.5s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+        .tx-alert-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #00d4aa;
+            margin: 20px 0 10px;
+        }
+        .tx-alert-amount {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            margin: 10px 0;
+        }
+        .tx-alert-hash {
+            font-family: monospace;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 20px;
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* NOTIFICATION TOAST */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .notification {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.95), rgba(74, 222, 128, 0.95));
+            color: #000;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 212, 170, 0.4);
+            animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            to { transform: translateX(400px); opacity: 0; }
+        }
+        .notification-icon {
+            font-size: 32px;
+        }
+        .notification-content h4 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .notification-content p {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* LIVE TRANSACTION FEED */
+        .tx-feed-section {
+            margin: 30px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .tx-feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(0, 212, 170, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tx-feed-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tx-feed-count {
+            background: #00d4aa;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .tx-feed-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .tx-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s;
+            animation: highlight 2s ease-out;
+        }
+        @keyframes highlight {
+            0% { background: rgba(0, 212, 170, 0.3); }
+            100% { background: transparent; }
+        }
+        .tx-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .tx-item:last-child {
+            border-bottom: none;
+        }
+        .tx-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .tx-type-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .tx-type-icon.buy {
+            background: linear-gradient(135deg, #00d4aa, #00a080);
+        }
+        .tx-type-icon.sell {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        .tx-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .tx-info p {
+            font-size: 12px;
+            color: #64748b;
+        }
+        .tx-item-right {
+            text-align: right;
+        }
+        .tx-amount {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .tx-amount.buy { color: #00d4aa; }
+        .tx-amount.sell { color: #ef4444; }
+        .tx-time {
+            font-size: 11px;
+            color: #64748b;
+        }
+        .tx-empty {
+            padding: 40px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        /* GOAL TRACKER - TOP SECTION */
+        .goal-tracker {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(74, 222, 128, 0.1));
+            border: 2px solid rgba(0, 212, 170, 0.4);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .goal-tracker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4aa, #4ade80, #fbbf24);
+        }
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .goal-title {
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .goal-title .emoji {
+            font-size: 36px;
+            animation: bounce 2s infinite;
+        }
+        .goal-subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .goal-amount {
+            text-align: right;
+        }
+        .goal-current {
+            font-size: 36px;
+            font-weight: 800;
+            color: #00d4aa;
+        }
+        .goal-target {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .progress-container {
+            margin: 25px 0;
+        }
+        .progress-bar-bg {
+            height: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4aa, #4ade80, #fbbf24);
+            border-radius: 15px;
+            transition: width 1s ease-out;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+        }
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .progress-percent {
+            font-weight: 700;
+            font-size: 14px;
+            color: #000;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+            z-index: 1;
+        }
+        .progress-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #64748b;
+        }
+        .goal-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 25px;
+        }
+        .goal-stat {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .goal-stat-label {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .goal-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .goal-stat-value.green { color: #00d4aa; }
+        .goal-stat-value.yellow { color: #fbbf24; }
+        .goal-stat-value.purple { color: #a855f7; }
+        .goal-stat-value.blue { color: #3b82f6; }
+        .goal-stat-change {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        .goal-stat-change.positive { color: #22c55e; }
+        .goal-stat-change.negative { color: #ef4444; }
+        .goal-stat-change.neutral { color: #64748b; }
+
+        /* WALLET VALUE SECTION */
+        .wallet-overview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .wallet-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .wallet-address {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #64748b;
+            background: rgba(0,0,0,0.3);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .wallet-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .wallet-item.highlight {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(74, 222, 128, 0.1));
+            border: 1px solid rgba(0, 212, 170, 0.3);
+        }
+        .wallet-item-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .wallet-item-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+        }
+        .wallet-item-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Buy Buttons Section */
+        .buy-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .buy-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .buy-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .buy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .buy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .buy-btn.primary {
+            background: linear-gradient(135deg, #00d4aa, #00a080);
+            color: #000;
+        }
+        .buy-btn.secondary {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+        }
+        .buy-btn.tertiary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Live Chart Section */
+        .chart-section {
+            margin: 40px 0;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .chart-title {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chart-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #00d4aa, #4ade80);
+            border-radius: 2px;
+        }
+        .live-badge {
+            background: #ef4444;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .chart-container iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        /* Pool Balance Section */
+        .pool-section {
+            margin: 40px 0;
+        }
+        .pool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .pool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+        .pool-card.highlight {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(74, 222, 128, 0.1));
+            border-color: rgba(0, 212, 170, 0.3);
+        }
+        .pool-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .pool-label {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .pool-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .pool-value.emerald { color: #00d4aa; }
+        .pool-value.yellow { color: #fbbf24; }
+        .pool-subvalue {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .pool-link {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .pool-link:hover {
+            background: rgba(0, 212, 170, 0.3);
+        }
+
+        /* Instructions Box */
+        .instructions {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+        .instructions h4 {
+            color: #fbbf24;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        .instructions ol {
+            padding-left: 20px;
+            color: #d1d5db;
+        }
+        .instructions li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        .instructions li strong {
+            color: #fff;
+        }
+        .instructions code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #00d4aa;
+        }
+        .instructions .warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            color: #fca5a5;
+        }
+
+        /* Credentials Box */
+        .credentials-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 40px 0;
+        }
+        .cred-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .cred-row:last-child {
+            border-bottom: none;
+        }
+        .cred-label {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .cred-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Cashout Ready Animation */
+        .cashout-ready {
+            display: none;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #000;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 24px;
+            animation: glow 1s infinite alternate;
+            margin-top: 20px;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+            to { box-shadow: 0 0 40px rgba(251, 191, 36, 0.8); }
+        }
+
+        /* Links Grid */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 16px;
+        }
+        .link-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .link-card:hover {
+            background: rgba(0, 212, 170, 0.1);
+            border-color: rgba(0, 212, 170, 0.3);
+            transform: translateY(-2px);
+        }
+        .link-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .link-icon.green { background: linear-gradient(135deg, #00d4aa, #00a080); }
+        .link-icon.yellow { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .link-icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .link-icon.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .link-icon.cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .link-icon.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .link-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .link-content p {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #00d4aa, #4ade80);
+            border-radius: 2px;
+        }
+
+        /* POSTING TRACKER STYLES */
+        .posting-tracker {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .tracker-progress {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#00d4aa 0%, #1a1a2e 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            position: relative;
+        }
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #1a1a2e;
+            border-radius: 50%;
+        }
+        .progress-circle span {
+            position: relative;
+            z-index: 1;
+        }
+        .progress-text h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .progress-text p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #00d4aa, #00a080);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 170, 0.4);
+        }
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .platform-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .platform-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .platform-header.twitter { background: linear-gradient(135deg, rgba(29, 161, 242, 0.2), rgba(13, 142, 207, 0.1)); border-bottom: 2px solid #1da1f2; }
+        .platform-header.telegram { background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(0, 102, 153, 0.1)); border-bottom: 2px solid #0088cc; }
+        .platform-header.discord { background: linear-gradient(135deg, rgba(88, 101, 242, 0.2), rgba(71, 82, 196, 0.1)); border-bottom: 2px solid #5865f2; }
+        .platform-header.facebook { background: linear-gradient(135deg, rgba(24, 119, 242, 0.2), rgba(13, 94, 207, 0.1)); border-bottom: 2px solid #1877f2; }
+        .platform-header.reddit { background: linear-gradient(135deg, rgba(255, 69, 0, 0.2), rgba(204, 55, 0, 0.1)); border-bottom: 2px solid #ff4500; }
+        .platform-header.medium { background: linear-gradient(135deg, rgba(0, 171, 108, 0.2), rgba(0, 143, 91, 0.1)); border-bottom: 2px solid #00ab6c; }
+        .platform-header.linkedin { background: linear-gradient(135deg, rgba(0, 119, 181, 0.2), rgba(0, 88, 133, 0.1)); border-bottom: 2px solid #0077b5; }
+        .platform-header.bitcointalk { background: linear-gradient(135deg, rgba(247, 147, 26, 0.2), rgba(199, 120, 0, 0.1)); border-bottom: 2px solid #f7931a; }
+        .platform-header a {
+            font-size: 12px;
+            color: #00d4aa;
+            text-decoration: none;
+        }
+        .task-list {
+            padding: 12px 16px;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+            font-size: 13px;
+            color: #94a3b8;
+            transition: color 0.3s;
+        }
+        .task-item:hover { color: #fff; }
+        .task-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #00d4aa;
+            cursor: pointer;
+        }
+        .task-item input:checked + span,
+        .task-item:has(input:checked) {
+            color: #00d4aa;
+            text-decoration: line-through;
+        }
+        .tracker-alert {
+            display: none;
+            background: rgba(0, 212, 170, 0.2);
+            border: 1px solid #00d4aa;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            margin-top: 20px;
+            color: #00d4aa;
+            font-weight: 600;
+        }
+        .tracker-alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .title { font-size: 32px; }
+            .buy-buttons { flex-direction: column; align-items: center; }
+            .goal-stats { grid-template-columns: repeat(2, 1fr); }
+            .wallet-grid { grid-template-columns: 1fr; }
+            .tracker-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">₨</div>
+                <div>
+                    <h1 class="title">PakRupee Token</h1>
+                    <p class="subtitle">PKRT - Pakistani Remittance Cryptocurrency</p>
+                    <span class="badge">✓ VERIFIED ON BSCSCAN</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVE STATUS -->
+        <div class="live-status">
+            <div class="live-dot"></div>
+            <span class="live-text">LIVE MONITORING</span>
+            <span class="last-update" id="lastUpdate">Last update: Just now</span>
+        </div>
+
+        <!-- TRANSACTION FEED - TOP -->
+        <div class="tx-feed-section">
+            <div class="tx-feed-header">
+                <div class="tx-feed-title">
+                    ⚡ Live Transaction Feed
+                    <span class="tx-feed-count" id="txCount">0</span>
+                </div>
+                <div style="font-size: 12px; color: #64748b;">
+                    Auto-refresh: <span id="refreshRate">2s</span>
+                </div>
+            </div>
+            <div class="tx-feed-list" id="txFeedList">
+                <div class="tx-empty">
+                    <div style="font-size: 48px; margin-bottom: 10px;">🔍</div>
+                    <div>Listening for transactions...</div>
+                    <div style="font-size: 12px; margin-top: 8px;">Every PKRT buy/sell will appear here instantly</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- $1M GOAL TRACKER -->
+        <div class="goal-tracker">
+            <div class="goal-header">
+                <div>
+                    <div class="goal-title">
+                        <span class="emoji">🎯</span>
+                        CASHOUT GOAL TRACKER
+                    </div>
+                    <div class="goal-subtitle">When we hit $1,000,000 - WE CASH OUT! 🚀</div>
+                </div>
+                <div class="goal-amount">
+                    <div class="goal-current" id="currentValue">$25.47</div>
+                    <div class="goal-target">Goal: $1,000,000</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar" style="width: 0.0025%;">
+                        <span class="progress-percent" id="progressPercent">0.0025%</span>
+                    </div>
+                </div>
+                <div class="progress-markers">
+                    <span>$0</span>
+                    <span>$250K</span>
+                    <span>$500K</span>
+                    <span>$750K</span>
+                    <span>$1M 🏆</span>
+                </div>
+            </div>
+
+            <div class="goal-stats">
+                <div class="goal-stat">
+                    <div class="goal-stat-label">📈 Market Cap</div>
+                    <div class="goal-stat-value green" id="marketCap">$53.62</div>
+                </div>
+                <div class="goal-stat">
+                    <div class="goal-stat-label">📊 24h Volume</div>
+                    <div class="goal-stat-value yellow" id="volume24h">$0.00</div>
+                </div>
+                <div class="goal-stat">
+                    <div class="goal-stat-label">💰 Initial Investment</div>
+                    <div class="goal-stat-value blue">$20.00</div>
+                </div>
+                <div class="goal-stat">
+                    <div class="goal-stat-label">💵 Total Income</div>
+                    <div class="goal-stat-value purple" id="totalIncome">$5.47</div>
+                    <div class="goal-stat-change positive" id="incomeChange">+27.35% ROI</div>
+                </div>
+            </div>
+
+            <div class="cashout-ready" id="cashoutReady">
+                🎉 CASHOUT TIME! 🎉 You've reached $1,000,000! Time to withdraw!
+            </div>
+        </div>
+
+        <!-- WALLET VALUE SECTION -->
+        <div class="wallet-overview">
+            <div class="wallet-header">
+                <div class="wallet-title">💼 Your Wallet Total Value</div>
+                <div class="wallet-address">0xad71bf...b72f</div>
+            </div>
+            <div class="wallet-grid">
+                <div class="wallet-item highlight">
+                    <div class="wallet-item-icon">🪙</div>
+                    <div class="wallet-item-label">PKRT in Wallet</div>
+                    <div class="wallet-item-value" style="color: #00d4aa;" id="walletPKRT">463,787,276.14</div>
+                    <span class="usd" id="walletPKRTUSD">≈ $24.71</span>
+                </div>
+                <div class="wallet-item">
+                    <div class="wallet-item-icon">💎</div>
+                    <div class="wallet-item-label">BNB in Wallet</div>
+                    <div class="wallet-item-value" style="color: #fbbf24;">0.00001451</div>
+                    <span class="usd">≈ $0.01 USD</span>
+                </div>
+                <div class="wallet-item">
+                    <div class="wallet-item-icon">🎫</div>
+                    <div class="wallet-item-label">LP Tokens Value</div>
+                    <div class="wallet-item-value" style="color: #a855f7;">3,195.59 LP</div>
+                    <span class="usd" id="lpValue">≈ Pool ownership</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buy Buttons Section -->
+        <div class="buy-section">
+            <h2 class="buy-title">🚀 Buy PKRT Now</h2>
+            <div class="buy-buttons">
+                <a href="https://biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="buy-btn primary">
+                    <span>💱</span>
+                    Buy on Biswap (0.1% Fee)
+                </a>
+                <a href="https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="buy-btn secondary">
+                    <span>🥞</span>
+                    Buy on PancakeSwap
+                </a>
+                <a href="https://dexscreener.com/bsc/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f" target="_blank" class="buy-btn tertiary">
+                    <span>📊</span>
+                    View on DexScreener
+                </a>
+            </div>
+        </div>
+
+        <!-- Live Chart Section -->
+        <div class="chart-section">
+            <div class="chart-header">
+                <h2 class="chart-title">Live Price Chart</h2>
+                <span class="live-badge">● LIVE</span>
+            </div>
+            <div class="chart-container">
+                <iframe 
+                    src="https://dexscreener.com/bsc/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f?embed=1&theme=dark&trades=0&info=0"
+                    allow="clipboard-write"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+
+        <!-- Pool Balance Section -->
+        <div class="pool-section">
+            <h2 class="section-title">🏊 Your Liquidity Pool Balances</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">Real-time balances in the PKRT/BNB liquidity pool</p>
+            
+            <div class="pool-grid">
+                <div class="pool-card highlight">
+                    <div class="pool-icon">🪙</div>
+                    <div class="pool-label">PKRT in Pool</div>
+                    <div class="pool-value emerald" id="pkrtInPool">536,212,723.85752566</div>
+                    <div class="pool-subvalue" id="pkrtPercent">≈ 53.62% of total supply</div>
+                    <a href="https://bscscan.com/token/0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98?a=0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f" target="_blank" class="pool-link">
+                        View on BscScan →
+                    </a>
+                </div>
+                
+                <div class="pool-card highlight">
+                    <div class="pool-icon">💎</div>
+                    <div class="pool-label">BNB in Pool</div>
+                    <div class="pool-value yellow" id="bnbInPool">0.014592001312212914</div>
+                    <div class="pool-subvalue" id="bnbValue">≈ $9.15 USD</div>
+                    <a href="https://bscscan.com/token/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c?a=0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f" target="_blank" class="pool-link">
+                        View on BscScan →
+                    </a>
+                </div>
+                
+                <div class="pool-card">
+                    <div class="pool-icon">🎫</div>
+                    <div class="pool-label">Your LP Tokens</div>
+                    <div class="pool-value">3,195.59227687</div>
+                    <div class="pool-subvalue">Your ownership proof</div>
+                    <a href="https://bscscan.com/address/0xad71bf8010078ab2ede4783dfb944dcd9ac7b72f#tokentxns" target="_blank" class="pool-link">
+                        View Your LP Tokens →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <h2 class="section-title">🔗 Quick Links</h2>
+        <div class="links-grid">
+            <a href="https://biswap.org/pool" target="_blank" class="link-card">
+                <div class="link-icon green">🏊</div>
+                <div class="link-content">
+                    <h3>Biswap Pool - Manage Liquidity</h3>
+                    <p>Add/Remove liquidity</p>
+                </div>
+            </a>
+            <a href="https://bscscan.com/address/0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f" target="_blank" class="link-card">
+                <div class="link-icon yellow">📊</div>
+                <div class="link-content">
+                    <h3>Pool on BscScan</h3>
+                    <p>View pool transactions</p>
+                </div>
+            </a>
+            <a href="https://dexscreener.com/bsc/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f" target="_blank" class="link-card">
+                <div class="link-icon cyan">📈</div>
+                <div class="link-content">
+                    <h3>DexScreener</h3>
+                    <p>Live chart & analytics</p>
+                </div>
+            </a>
+            <a href="https://geckoterminal.com/bsc/pools/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f" target="_blank" class="link-card">
+                <div class="link-icon purple">🦎</div>
+                <div class="link-content">
+                    <h3>GeckoTerminal</h3>
+                    <p>Pool analytics</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Social Media Posting Tracker -->
+        <h2 class="section-title">📱 Social Media Posting Tracker</h2>
+        <div class="posting-tracker">
+            <div class="tracker-header">
+                <div class="tracker-progress">
+                    <div class="progress-circle" id="postingProgress">
+                        <span id="postingPercent">0%</span>
+                    </div>
+                    <div class="progress-text">
+                        <h3>Today's Progress</h3>
+                        <p id="postingCount">0 / 24 tasks completed</p>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveProgress()">💾 Save Progress</button>
+            </div>
+            
+            <div class="tracker-grid">
+                <!-- TWITTER -->
+                <div class="platform-section">
+                    <div class="platform-header twitter">
+                        <span>𝕏</span> Twitter/X
+                        <a href="https://x.com/PakRupeeToken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="twitter-intro" onchange="updateProgress()"> Post Introduction tweet</label>
+                        <label class="task-item"><input type="checkbox" data-task="twitter-thread" onchange="updateProgress()"> Post Info Thread</label>
+                        <label class="task-item"><input type="checkbox" data-task="twitter-engage" onchange="updateProgress()"> Engage with 10 crypto accounts</label>
+                        <label class="task-item"><input type="checkbox" data-task="twitter-reply" onchange="updateProgress()"> Reply to all mentions</label>
+                    </div>
+                </div>
+                
+                <!-- TELEGRAM -->
+                <div class="platform-section">
+                    <div class="platform-header telegram">
+                        <span>📱</span> Telegram
+                        <a href="https://t.me/pakrupeetoken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="tg-welcome" onchange="updateProgress()"> Pin welcome message</label>
+                        <label class="task-item"><input type="checkbox" data-task="tg-share" onchange="updateProgress()"> Share in 5 crypto groups</label>
+                        <label class="task-item"><input type="checkbox" data-task="tg-announce" onchange="updateProgress()"> Post announcement</label>
+                    </div>
+                </div>
+                
+                <!-- DISCORD -->
+                <div class="platform-section">
+                    <div class="platform-header discord">
+                        <span>💬</span> Discord
+                        <a href="https://discord.gg/vVW5BS4Yzj" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="dc-welcome" onchange="updateProgress()"> Setup welcome channel</label>
+                        <label class="task-item"><input type="checkbox" data-task="dc-rules" onchange="updateProgress()"> Post rules & info</label>
+                        <label class="task-item"><input type="checkbox" data-task="dc-announce" onchange="updateProgress()"> Post announcement</label>
+                    </div>
+                </div>
+                
+                <!-- FACEBOOK -->
+                <div class="platform-section">
+                    <div class="platform-header facebook">
+                        <span>📘</span> Facebook
+                        <a href="https://facebook.com/pakrupeetoken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="fb-cover" onchange="updateProgress()"> Add cover photo</label>
+                        <label class="task-item"><input type="checkbox" data-task="fb-intro" onchange="updateProgress()"> Post introduction</label>
+                        <label class="task-item"><input type="checkbox" data-task="fb-share" onchange="updateProgress()"> Share to 5 groups</label>
+                    </div>
+                </div>
+                
+                <!-- REDDIT -->
+                <div class="platform-section">
+                    <div class="platform-header reddit">
+                        <span>🔴</span> Reddit
+                        <a href="https://reddit.com/r/PakRupeeToken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="rd-sub" onchange="updateProgress()"> Create subreddit</label>
+                        <label class="task-item"><input type="checkbox" data-task="rd-post" onchange="updateProgress()"> Post announcement</label>
+                        <label class="task-item"><input type="checkbox" data-task="rd-crypto" onchange="updateProgress()"> Post in r/cryptocurrency</label>
+                    </div>
+                </div>
+                
+                <!-- MEDIUM -->
+                <div class="platform-section">
+                    <div class="platform-header medium">
+                        <span>📝</span> Medium
+                        <a href="https://pakrupeetoken.medium.com" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="med-article" onchange="updateProgress()"> Publish main article ✓</label>
+                        <label class="task-item"><input type="checkbox" data-task="med-share" onchange="updateProgress()"> Share article on socials</label>
+                    </div>
+                </div>
+                
+                <!-- LINKEDIN -->
+                <div class="platform-section">
+                    <div class="platform-header linkedin">
+                        <span>💼</span> LinkedIn
+                        <a href="https://linkedin.com/company/pakrupeetoken" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="li-page" onchange="updateProgress()"> Complete company page</label>
+                        <label class="task-item"><input type="checkbox" data-task="li-post" onchange="updateProgress()"> Post introduction</label>
+                        <label class="task-item"><input type="checkbox" data-task="li-connect" onchange="updateProgress()"> Connect with 10 people</label>
+                    </div>
+                </div>
+                
+                <!-- BITCOINTALK -->
+                <div class="platform-section">
+                    <div class="platform-header bitcointalk">
+                        <span>₿</span> BitcoinTalk
+                        <a href="https://bitcointalk.org/index.php?topic=5575853.new#new" target="_blank">Visit →</a>
+                    </div>
+                    <div class="task-list">
+                        <label class="task-item"><input type="checkbox" data-task="bt-ann" onchange="updateProgress()"> Create ANN thread ✓</label>
+                        <label class="task-item"><input type="checkbox" data-task="bt-bump" onchange="updateProgress()"> Bump thread (reply)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tracker-alert" id="trackerAlert">
+                ✅ Progress saved!
+            </div>
+        </div>
+
+        <!-- Social Media Quick Links -->
+        <h2 class="section-title">🔗 Quick Access Links</h2>
+        <div class="links-grid">
+            <a href="https://x.com/PakRupeeToken" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #1da1f2, #0d8ecf);">𝕏</div>
+                <div class="link-content">
+                    <h3>Twitter/X</h3>
+                    <p>@PakRupeeToken</p>
+                </div>
+            </a>
+            <a href="https://t.me/pakrupeetoken" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #0088cc, #006699);">📱</div>
+                <div class="link-content">
+                    <h3>Telegram</h3>
+                    <p>@pakrupeetoken</p>
+                </div>
+            </a>
+            <a href="https://discord.gg/vVW5BS4Yzj" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #5865f2, #4752c4);">💬</div>
+                <div class="link-content">
+                    <h3>Discord</h3>
+                    <p>PKRT Community</p>
+                </div>
+            </a>
+            <a href="https://facebook.com/pakrupeetoken" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #1877f2, #0d5ecf);">📘</div>
+                <div class="link-content">
+                    <h3>Facebook</h3>
+                    <p>/pakrupeetoken</p>
+                </div>
+            </a>
+            <a href="https://reddit.com/r/PakRupeeToken" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #ff4500, #cc3700);">🔴</div>
+                <div class="link-content">
+                    <h3>Reddit</h3>
+                    <p>r/PakRupeeToken</p>
+                </div>
+            </a>
+            <a href="https://pakrupeetoken.medium.com/introducing-pakrupee-token-pkrt-the-future-of-remittances-for-pakistan-d717f3812875" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #00ab6c, #008f5b);">📝</div>
+                <div class="link-content">
+                    <h3>Medium</h3>
+                    <p>@pakrupeetoken</p>
+                </div>
+            </a>
+            <a href="https://linkedin.com/company/pakrupeetoken" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #0077b5, #005885);">💼</div>
+                <div class="link-content">
+                    <h3>LinkedIn</h3>
+                    <p>/company/pakrupeetoken</p>
+                </div>
+            </a>
+            <a href="https://bitcointalk.org/index.php?topic=5575853.new#new" target="_blank" class="link-card">
+                <div class="link-icon" style="background: linear-gradient(135deg, #f7931a, #c77800);">₿</div>
+                <div class="link-content">
+                    <h3>BitcoinTalk</h3>
+                    <p>ANN Thread</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- How to Withdraw -->
+        <h2 class="section-title">📖 How to Withdraw from Liquidity Pool</h2>
+        <div class="instructions">
+            <h4>⚠️ IMPORTANT: Read Before Withdrawing</h4>
+            <ol>
+                <li><strong>Go to Biswap Pool:</strong> <a href="https://biswap.org/pool" target="_blank" style="color: #00d4aa;">https://biswap.org/pool</a></li>
+                <li><strong>Connect Your Wallet</strong> - Click "Connect Wallet" and approve in MetaMask</li>
+                <li><strong>Find Your Position</strong> - Look for "My Liquidity" section</li>
+                <li><strong>Click "Remove"</strong> - Choose amount (25%, 50%, 75%, or 100%)</li>
+                <li><strong>Confirm Transaction</strong> - Pay small gas fee (~$0.05-0.20)</li>
+            </ol>
+            <div class="warning">
+                <strong>⚠️ WARNING:</strong> If you remove 100% liquidity, PKRT becomes untradeable!
+            </div>
+        </div>
+
+        <!-- Credentials Box -->
+        <h2 class="section-title">Credentials</h2>
+        <div class="credentials-box">
+            <div class="cred-row">
+                <span class="cred-label">Token Contract</span>
+                <span class="cred-value">0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98</span>
+            </div>
+            <div class="cred-row">
+                <span class="cred-label">Liquidity Pool</span>
+                <span class="cred-value">0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f</span>
+            </div>
+            <div class="cred-row">
+                <span class="cred-label">Your Wallet</span>
+                <span class="cred-value">0xad71bf8010078ab2ede4783dfb944dcd9ac7b72f</span>
+            </div>
+            <div class="cred-row">
+                <span class="cred-label">Network</span>
+                <span class="cred-value">BNB Smart Chain (Chain ID: 56)</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2024 PakRupee Token (PKRT) | Built for Pakistani Remittance</p>
+            <p style="margin-top: 8px;">Lowest fees on BSC: 0.1% (Biswap) vs 5-7% (Western Union)</p>
+        </div>
+    </div>
+
+    <!-- TRANSACTION ALERT OVERLAY -->
+    <div class="tx-alert-overlay" id="txAlertOverlay">
+        <div class="tx-alert-box">
+            <div class="tx-alert-icon" id="txAlertIcon">🎉</div>
+            <div class="tx-alert-title" id="txAlertTitle">NEW BUY!</div>
+            <div class="tx-alert-amount" id="txAlertAmount">+1,000,000 PKRT</div>
+            <div style="font-size: 16px; color: #94a3b8;" id="txAlertUSD">≈ $10.00 USD</div>
+            <div class="tx-alert-hash" id="txAlertHash">0x1234...5678</div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION CONTAINER -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script>
+        // ==========================================
+        // PKRT DASHBOARD - REAL-TIME TRANSACTION MONITOR
+        // ==========================================
+        
+        const CONFIG = {
+            INITIAL_INVESTMENT: 20.00,
+            GOAL: 1000000,
+            TOKEN_CONTRACT: '0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98',
+            POOL_ADDRESS: '0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f',
+            WALLET_ADDRESS: '0xad71bf8010078ab2ede4783dfb944dcd9ac7b72f',
+            TOTAL_SUPPLY: 1000000000,
+            BSCSCAN_API: 'https://api.bscscan.com/api',
+            POLL_INTERVAL: 2000, // 2 seconds for fast response
+        };
+
+        let state = {
+            bnbPrice: 628.50,
+            pkrtPrice: 0.000000053,
+            totalValue: 0,
+            marketCap: 0,
+            volume24h: 0,
+            lastTxBlock: 0,
+            transactions: [],
+            txCount: 0,
+            seenTxHashes: new Set(),
+            poolPKRT: 536212723.85752566,
+            poolBNB: 0.014592001312212914,
+            walletPKRT: 463787276.14247434
+        };
+
+        // ==========================================
+        // SOUND ALERT SYSTEM
+        // ==========================================
+        let audioContext = null;
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playBuySound() {
+            initAudio();
+            
+            // Create a pleasant "cha-ching" sound
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // First note - high ping
+            oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+            
+            // Second note - lower ping
+            setTimeout(() => {
+                const osc2 = audioContext.createOscillator();
+                const gain2 = audioContext.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioContext.destination);
+                osc2.frequency.setValueAtTime(1600, audioContext.currentTime);
+                gain2.gain.setValueAtTime(0.2, audioContext.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                osc2.start(audioContext.currentTime);
+                osc2.stop(audioContext.currentTime + 0.2);
+            }, 100);
+        }
+
+        function playSellSound() {
+            initAudio();
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.2);
+            
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        // ==========================================
+        // VISUAL NOTIFICATIONS
+        // ==========================================
+        function showNotification(title, message, type = 'buy') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-icon">${type === 'buy' ? '💰' : '📤'}</div>
+                <div class="notification-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            container.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        function showFullScreenAlert(tx) {
+            const overlay = document.getElementById('txAlertOverlay');
+            const icon = document.getElementById('txAlertIcon');
+            const title = document.getElementById('txAlertTitle');
+            const amount = document.getElementById('txAlertAmount');
+            const usd = document.getElementById('txAlertUSD');
+            const hash = document.getElementById('txAlertHash');
+            
+            if (tx.type === 'buy') {
+                icon.textContent = '🎉';
+                title.textContent = 'NEW BUY!';
+                title.style.color = '#00d4aa';
+                amount.textContent = `+${formatNumber(tx.pkrtAmount)} PKRT`;
+                amount.style.color = '#00d4aa';
+            } else {
+                icon.textContent = '📤';
+                title.textContent = 'SELL DETECTED';
+                title.style.color = '#ef4444';
+                amount.textContent = `-${formatNumber(tx.pkrtAmount)} PKRT`;
+                amount.style.color = '#ef4444';
+            }
+            
+            usd.textContent = `≈ ${formatCurrency(tx.usdValue)} USD`;
+            hash.textContent = `Tx: ${tx.hash.substring(0, 10)}...${tx.hash.substring(tx.hash.length - 8)}`;
+            
+            overlay.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                overlay.classList.remove('show');
+            }, 3000);
+        }
+
+        // ==========================================
+        // TRANSACTION FEED
+        // ==========================================
+        function addToTransactionFeed(tx) {
+            const feed = document.getElementById('txFeedList');
+            
+            // Remove empty state if exists
+            const empty = feed.querySelector('.tx-empty');
+            if (empty) empty.remove();
+            
+            const txItem = document.createElement('div');
+            txItem.className = 'tx-item';
+            
+            const isBuy = tx.type === 'buy';
+            txItem.innerHTML = `
+                <div class="tx-item-left">
+                    <div class="tx-type-icon ${isBuy ? 'buy' : 'sell'}">
+                        ${isBuy ? '💰' : '📤'}
+                    </div>
+                    <div class="tx-info">
+                        <h4>${isBuy ? 'BUY' : 'SELL'} PKRT</h4>
+                        <p>${tx.timeAgo}</p>
+                    </div>
+                </div>
+                <div class="tx-item-right">
+                    <div class="tx-amount ${isBuy ? 'buy' : 'sell'}">
+                        ${isBuy ? '+' : '-'}${formatNumber(tx.pkrtAmount)} PKRT
+                    </div>
+                    <div class="tx-time">${formatCurrency(tx.usdValue)}</div>
+                </div>
+            `;
+            
+            feed.insertBefore(txItem, feed.firstChild);
+            
+            // Keep only last 20 transactions
+            while (feed.children.length > 20) {
+                feed.removeChild(feed.lastChild);
+            }
+            
+            // Update counter
+            state.txCount++;
+            document.getElementById('txCount').textContent = state.txCount;
+        }
+
+        // ==========================================
+        // BSCSCAN API - FETCH TRANSACTIONS
+        // ==========================================
+        async function fetchTransactions() {
+            try {
+                // Get token transfers for the pool
+                const url = `${CONFIG.BSCSCAN_API}?module=account&action=tokentx&contractaddress=${CONFIG.TOKEN_CONTRACT}&address=${CONFIG.POOL_ADDRESS}&page=1&offset=20&sort=desc`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.status === '1' && data.result && data.result.length > 0) {
+                    processTransactions(data.result);
+                }
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+            }
+        }
+
+        function processTransactions(txs) {
+            txs.forEach(tx => {
+                // Skip if we've already seen this transaction
+                if (state.seenTxHashes.has(tx.hash)) return;
+                
+                state.seenTxHashes.add(tx.hash);
+                
+                // Determine if buy or sell
+                // If tokens are going TO the pool, it's a sell (someone selling PKRT)
+                // If tokens are going FROM the pool, it's a buy (someone buying PKRT)
+                const isToPool = tx.to.toLowerCase() === CONFIG.POOL_ADDRESS.toLowerCase();
+                const isFromPool = tx.from.toLowerCase() === CONFIG.POOL_ADDRESS.toLowerCase();
+                
+                let type, pkrtAmount, usdValue;
+                
+                if (isToPool) {
+                    // Someone sold PKRT to the pool
+                    type = 'sell';
+                    pkrtAmount = parseFloat(tx.value) / Math.pow(10, 18);
+                    usdValue = pkrtAmount * state.pkrtPrice;
+                } else if (isFromPool) {
+                    // Someone bought PKRT from the pool
+                    type = 'buy';
+                    pkrtAmount = parseFloat(tx.value) / Math.pow(10, 18);
+                    usdValue = pkrtAmount * state.pkrtPrice;
+                } else {
+                    return; // Not a pool transaction
+                }
+                
+                const transaction = {
+                    hash: tx.hash,
+                    type: type,
+                    pkrtAmount: pkrtAmount,
+                    usdValue: usdValue,
+                    timestamp: parseInt(tx.timeStamp),
+                    timeAgo: getTimeAgo(parseInt(tx.timeStamp) * 1000)
+                };
+                
+                // Add to state
+                state.transactions.unshift(transaction);
+                
+                // Trigger alerts
+                triggerAlerts(transaction);
+                
+                // Add to feed
+                addToTransactionFeed(transaction);
+                
+                // Update values
+                updatePoolAfterTx(transaction);
+            });
+        }
+
+        function triggerAlerts(tx) {
+            // Play sound
+            if (tx.type === 'buy') {
+                playBuySound();
+            } else {
+                playSellSound();
+            }
+            
+            // Show notification
+            showNotification(
+                tx.type === 'buy' ? '💰 NEW BUY!' : '📤 SELL Detected',
+                `${formatNumber(tx.pkrtAmount)} PKRT (${formatCurrency(tx.usdValue)})`,
+                tx.type
+            );
+            
+            // Show full screen alert for significant transactions
+            if (tx.usdValue > 1) {
+                showFullScreenAlert(tx);
+            }
+        }
+
+        function updatePoolAfterTx(tx) {
+            // Update pool balances based on transaction
+            if (tx.type === 'buy') {
+                state.poolPKRT -= tx.pkrtAmount;
+                state.volume24h += tx.usdValue;
+            } else {
+                state.poolPKRT += tx.pkrtAmount;
+                state.volume24h += tx.usdValue;
+            }
+            
+            // Recalculate price
+            state.pkrtPrice = (state.poolBNB * state.bnbPrice) / state.poolPKRT;
+            
+            updateUI();
+        }
+
+        // ==========================================
+        // BNB PRICE FETCH
+        // ==========================================
+        async function fetchBNBPrice() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd');
+                const data = await response.json();
+                if (data.binacecoin && data.binacecoin.usd) {
+                    state.bnbPrice = data.binacecoin.usd;
+                }
+            } catch (error) {
+                console.log('Using default BNB price');
+            }
+        }
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(2) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(2) + 'K';
+            } else if (num >= 1) {
+                return num.toFixed(2);
+            } else {
+                return num.toFixed(6);
+            }
+        }
+
+        function formatCurrency(num) {
+            if (num >= 1000000) {
+                return '$' + (num / 1000000).toFixed(2) + 'M';
+            } else if (num >= 1000) {
+                return '$' + (num / 1000).toFixed(2) + 'K';
+            } else if (num >= 1) {
+                return '$' + num.toFixed(2);
+            } else if (num >= 0.01) {
+                return '$' + num.toFixed(4);
+            } else {
+                return '$' + num.toFixed(8);
+            }
+        }
+
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            return Math.floor(seconds / 86400) + 'd ago';
+        }
+
+        // ==========================================
+        // UI UPDATE
+        // ==========================================
+        function calculateValues() {
+            state.pkrtPrice = (state.poolBNB * state.bnbPrice) / state.poolPKRT;
+            state.marketCap = state.pkrtPrice * CONFIG.TOTAL_SUPPLY;
+            
+            const yourPKRTValue = state.walletPKRT * state.pkrtPrice;
+            const yourBNBValue = 0.00001451 * state.bnbPrice;
+            const lpValue = (state.poolBNB * state.bnbPrice + state.poolPKRT * state.pkrtPrice);
+            
+            state.totalValue = yourPKRTValue + yourBNBValue + lpValue * 0.999;
+        }
+
+        function updateUI() {
+            calculateValues();
+            
+            // Update current value
+            document.getElementById('currentValue').textContent = formatCurrency(state.totalValue);
+            
+            // Update progress
+            const progress = (state.totalValue / CONFIG.GOAL) * 100;
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            
+            if (progress > 0.0001) {
+                progressBar.style.width = Math.max(progress, 0.5) + '%';
+                progressPercent.textContent = progress < 1 ? progress.toFixed(6) + '%' : progress.toFixed(4) + '%';
+            }
+            
+            // Cashout alert
+            if (state.totalValue >= CONFIG.GOAL) {
+                document.getElementById('cashoutReady').style.display = 'block';
+            }
+            
+            // Update stats
+            document.getElementById('marketCap').textContent = formatCurrency(state.marketCap);
+            document.getElementById('volume24h').textContent = formatCurrency(state.volume24h);
+            document.getElementById('totalIncome').textContent = formatCurrency(state.totalValue);
+            
+            const roi = ((state.totalValue - CONFIG.INITIAL_INVESTMENT) / CONFIG.INITIAL_INVESTMENT) * 100;
+            const incomeChange = document.getElementById('incomeChange');
+            incomeChange.textContent = roi >= 0 ? '+' + roi.toFixed(2) + '% ROI' : roi.toFixed(2) + '% ROI';
+            incomeChange.className = roi >= 0 ? 'goal-stat-change positive' : 'goal-stat-change negative';
+            
+            // Update pool values
+            document.getElementById('pkrtInPool').textContent = formatNumber(state.poolPKRT);
+            document.getElementById('bnbInPool').textContent = state.poolBNB.toFixed(8);
+            document.getElementById('bnbValue').textContent = `≈ ${formatCurrency(state.poolBNB * state.bnbPrice)} USD`;
+            
+            // Update last update time
+            document.getElementById('lastUpdate').textContent = 'Last update: Just now';
+        }
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        async function init() {
+            // Initial fetch
+            await fetchBNBPrice();
+            await fetchTransactions();
+            updateUI();
+            
+            // Set up polling - FAST 2 second intervals
+            setInterval(fetchTransactions, CONFIG.POLL_INTERVAL);
+            setInterval(fetchBNBPrice, 30000); // BNB price every 30s
+            setInterval(updateUI, 1000); // UI update every second
+            
+            // Initialize audio on first user interaction
+            document.addEventListener('click', () => initAudio(), { once: true });
+        }
+
+        // Start the dashboard
+        document.addEventListener('DOMContentLoaded', init);
+
+        // ==========================================
+        // POSTING TRACKER - Progress Saving
+        // ==========================================
+        const TOTAL_TASKS = 24;
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.task-item input[type="checkbox"]:checked').length;
+            const percent = Math.round((checked / TOTAL_TASKS) * 100);
+            
+            // Update progress circle
+            const circle = document.getElementById('postingProgress');
+            circle.style.background = `conic-gradient(#00d4aa ${percent}%, #1a1a2e ${percent}%)`;
+            document.getElementById('postingPercent').textContent = percent + '%';
+            document.getElementById('postingCount').textContent = `${checked} / ${TOTAL_TASKS} tasks completed`;
+        }
+
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('.task-item input[type="checkbox"]');
+            const progress = {};
+            checkboxes.forEach(cb => {
+                progress[cb.dataset.task] = cb.checked;
+            });
+            localStorage.setItem('pkrt_posting_progress', JSON.stringify(progress));
+            
+            // Show alert
+            const alert = document.getElementById('trackerAlert');
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 2000);
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('pkrt_posting_progress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                Object.keys(progress).forEach(task => {
+                    const cb = document.querySelector(`input[data-task="${task}"]`);
+                    if (cb) cb.checked = progress[task];
+                });
+            }
+            updateProgress();
+        }
+
+        // Load progress on page load
+        document.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>
