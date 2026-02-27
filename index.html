@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PKRT - PakRupee Token | Pakistani Remittance Cryptocurrency</title>
     <meta name="description" content="PakRupee Token (PKRT) - Affordable cross-border remittances for Pakistanis worldwide. 0.1% fees vs 5-7% traditional services.">
-    <meta name="keywords" content="PKRT, PakRupee, cryptocurrency, Pakistan, remittance, BNB, BSC, Bitcoin, crypto">
-    <link rel="icon" type="image/png" href="logo32.png">
+    <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -28,6 +26,7 @@
             background: var(--bg-dark);
             color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         /* NAVIGATION */
@@ -36,11 +35,11 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(10, 10, 15, 0.95);
+            background: rgba(10, 10, 15, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             z-index: 1000;
-            padding: 0 40px;
+            padding: 0 20px;
         }
         .nav-inner {
             max-width: 1400px;
@@ -48,24 +47,24 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 80px;
+            height: 70px;
         }
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
             color: var(--text);
         }
         .logo-img {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+            mix-blend-mode: multiply;
         }
         .logo-text {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--gold), var(--primary));
             -webkit-background-clip: text;
@@ -73,42 +72,63 @@
         }
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 24px;
             align-items: center;
         }
         .nav-links a {
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
+            font-size: 14px;
             transition: color 0.3s;
         }
-        .nav-links a:hover {
-            color: var(--primary);
-        }
+        .nav-links a:hover { color: var(--primary); }
         .nav-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #000;
-            padding: 12px 24px;
+            color: #000 !important;
+            padding: 10px 20px;
             border-radius: 8px;
             font-weight: 600;
             text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
         }
         .nav-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
-            color: #000;
         }
-        .nav-btn-gold {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+        
+        /* LIVE PRICE TICKER */
+        .price-ticker {
+            background: linear-gradient(90deg, rgba(0, 212, 170, 0.15), rgba(212, 165, 116, 0.15));
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            font-size: 13px;
         }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ticker-label { color: var(--text-muted); }
+        .ticker-value { font-weight: 700; color: var(--gold); }
+        .ticker-value.green { color: var(--primary); }
+        .ticker-value.red { color: #ef4444; }
         
         /* HERO SECTION */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 120px 40px 80px;
+            padding: 160px 20px 60px;
             background: radial-gradient(ellipse at top, rgba(212, 165, 116, 0.1), transparent 50%),
                         radial-gradient(ellipse at bottom right, rgba(0, 212, 170, 0.1), transparent 50%);
         }
@@ -117,8 +137,9 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: 60px;
             align-items: center;
+            width: 100%;
         }
         .hero-badge {
             display: inline-flex;
@@ -126,29 +147,29 @@
             gap: 8px;
             background: rgba(0, 212, 170, 0.1);
             border: 1px solid rgba(0, 212, 170, 0.3);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--primary);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .hero-badge::before {
             content: '✓';
             background: var(--primary);
             color: #000;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
         }
         .hero h1 {
-            font-size: 64px;
+            font-size: 52px;
             font-weight: 900;
             line-height: 1.1;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .hero h1 span {
             background: linear-gradient(135deg, var(--gold), var(--primary));
@@ -156,516 +177,524 @@
             -webkit-text-fill-color: transparent;
         }
         .hero-desc {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 500px;
+            margin-bottom: 30px;
+            max-width: 480px;
         }
+        
+        /* LIVE PRICE BOX */
+        .live-price-box {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.15), rgba(0, 212, 170, 0.1));
+            border: 2px solid rgba(212, 165, 116, 0.3);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .price-main .label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+        .price-main .value { font-size: 28px; font-weight: 800; color: var(--gold); }
+        .price-secondary { font-size: 14px; color: var(--text-muted); }
+        .price-change { display: flex; gap: 16px; }
+        .change-item { font-size: 13px; }
+        .change-item .label { color: var(--text-muted); }
+        .change-item .value { font-weight: 600; }
+        .change-item .value.positive { color: var(--primary); }
+        .change-item .value.negative { color: #ef4444; }
+        
         .hero-buttons {
             display: flex;
-            gap: 16px;
-            margin-bottom: 48px;
+            gap: 12px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #000;
-            padding: 16px 32px;
-            border-radius: 12px;
+            padding: 14px 24px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
         }
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 212, 170, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.4);
             color: #000;
         }
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-        }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
         .btn-secondary {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.2);
             color: var(--text);
-            padding: 16px 32px;
-            border-radius: 12px;
+            padding: 14px 24px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.3s;
         }
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            color: var(--text);
-        }
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-        }
-        .hero-stat h3 {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--gold);
-        }
-        .hero-stat p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-        .hero-visual {
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+        
+        .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .hero-stat h3 { font-size: 28px; font-weight: 800; color: var(--gold); }
+        .hero-stat p { color: var(--text-muted); font-size: 13px; }
+        
+        .hero-visual { display: flex; justify-content: center; align-items: center; }
+        .coin-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
         }
+        .coin-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.4) 0%, rgba(0, 212, 170, 0.2) 40%, transparent 70%);
+            filter: blur(40px);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        @keyframes pulse-glow { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
         .hero-coin {
-            width: 400px;
-            height: 400px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 0 100px rgba(212, 165, 116, 0.5);
-            animation: float 6s ease-in-out infinite;
+            position: relative;
+            z-index: 10;
+            animation: coin-spin 8s linear infinite;
+            mix-blend-mode: multiply;
+            filter: drop-shadow(0 0 30px rgba(212, 165, 116, 0.6)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        @keyframes coin-spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
         
-        /* BUY PKRT SECTION - NEW */
-        .buy-pkrt-section {
-            padding: 120px 40px;
-            background: var(--bg-card);
+        /* BUY BUTTONS ROW */
+        .buy-buttons-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
-        .buy-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .buy-btn-small {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .buy-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: start;
-        }
+        .buy-btn-pancake { background: #1FC7D4; color: #000; }
+        .buy-btn-biswap { background: #30DB5E; color: #000; }
+        .buy-btn-dexscreener { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--text); }
+        .buy-btn-small:hover { transform: translateY(-2px); opacity: 0.9; }
+        
+        /* SECTION STYLES */
+        .section { padding: 80px 20px; }
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 48px; }
+        .section-header h2 { font-size: 40px; font-weight: 800; margin-bottom: 12px; }
+        .section-header h2 span { color: var(--primary); }
+        .section-header p { color: var(--text-muted); font-size: 16px; max-width: 500px; margin: 0 auto; }
+        
+        /* BUY SECTION */
+        .buy-section { background: var(--bg-card); }
+        .buy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        
         .buy-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 40px;
+            border-radius: 20px;
+            padding: 30px;
         }
-        .buy-card h3 {
-            font-size: 28px;
+        .buy-card h3 { font-size: 22px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        /* REGION BUTTONS */
+        .region-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin-bottom: 24px;
+        }
+        .region-btn {
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .region-btn-pakistan {
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.2), rgba(0, 100, 49, 0.2));
+            border: 2px solid rgba(0, 166, 81, 0.4);
+        }
+        .region-btn-pakistan:hover { border-color: #00a651; transform: translateY(-3px); }
+        .region-btn-us {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+            border: 2px solid rgba(59, 130, 246, 0.4);
+        }
+        .region-btn-us:hover { border-color: #3b82f6; transform: translateY(-3px); }
+        .region-btn .flag { font-size: 32px; margin-bottom: 8px; }
+        .region-btn .title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .region-btn .subtitle { font-size: 12px; color: var(--text-muted); }
+        
+        /* US BUY OPTIONS */
+        .us-options {
+            display: none;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .us-options.show { display: block; }
+        .us-options h4 { font-size: 14px; margin-bottom: 12px; color: #3b82f6; }
+        .us-links { display: grid; gap: 8px; }
+        .us-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .us-link:hover { background: rgba(59, 130, 246, 0.2); }
+        .us-link .icon { font-size: 20px; }
+        .us-link .name { font-weight: 600; font-size: 14px; color: var(--text); }
+        .us-link .desc { font-size: 11px; color: var(--text-muted); }
+        
+        /* PAKISTAN OPTIONS */
+        .pak-options {
+            display: none;
+            background: rgba(0, 166, 81, 0.1);
+            border: 1px solid rgba(0, 166, 81, 0.3);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .pak-options.show { display: block; }
+        .pak-options h4 { font-size: 14px; margin-bottom: 12px; color: #00a651; }
+        
+        .payment-method {
             display: flex;
             align-items: center;
             gap: 12px;
-        }
-        .buy-card h3 .icon {
-            font-size: 32px;
-        }
-        .buy-steps {
-            margin-bottom: 32px;
-        }
-        .buy-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 24px;
-            padding: 16px;
+            padding: 12px;
             background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
-        .buy-step.active {
-            border-left-color: var(--gold);
-            background: rgba(212, 165, 116, 0.1);
-        }
-        .buy-step.completed {
-            border-left-color: var(--primary);
-            background: rgba(0, 212, 170, 0.1);
-        }
-        .step-num {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: #000;
+        .payment-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
+            font-size: 18px;
+            font-weight: 800;
         }
-        .buy-step.active .step-num {
-            background: var(--gold);
-        }
-        .buy-step.completed .step-num {
-            background: var(--primary);
-        }
-        .step-content h4 {
+        .payment-logo.jazzcash { background: linear-gradient(135deg, #e60012, #b3000e); color: white; }
+        .payment-logo.easypaisa { background: linear-gradient(135deg, #00a651, #00803d); color: white; }
+        .payment-details h5 { font-size: 15px; margin-bottom: 2px; }
+        .payment-details p { font-size: 12px; color: var(--text-muted); }
+        .payment-number {
+            margin-left: auto;
+            font-family: 'Courier New', monospace;
             font-size: 16px;
-            margin-bottom: 4px;
-        }
-        .step-content p {
-            font-size: 14px;
-            color: var(--text-muted);
+            font-weight: 700;
+            color: var(--gold);
         }
         
-        /* FORM STYLES */
-        .form-group {
+        /* CONVERTER */
+        .converter-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 20px;
             margin-bottom: 20px;
         }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text-muted);
+        .converter-section h4 { margin-bottom: 16px; font-size: 15px; }
+        .converter-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: end; }
+        .converter-input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 14px;
+            color: var(--text);
+            font-size: 16px;
+            width: 100%;
         }
-        .form-group input, .form-group select {
+        .converter-input:focus { outline: none; border-color: var(--primary); }
+        .converter-arrow { font-size: 20px; color: var(--gold); padding-bottom: 14px; }
+        .converter-result {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+        .converter-result .amount { font-size: 20px; font-weight: 700; color: var(--primary); }
+        .converter-result .label { font-size: 11px; color: var(--text-muted); }
+        .rate-info {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--gold);
+            text-align: center;
+        }
+        
+        /* WALLET INPUT */
+        .wallet-input-section { margin-top: 16px; }
+        .wallet-input-section label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); }
+        .wallet-input-section input {
             width: 100%;
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 12px;
             color: var(--text);
-            font-size: 16px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
         }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        .form-group select {
-            cursor: pointer;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+        .wallet-input-section input:focus { outline: none; border-color: var(--primary); }
+        .chain-warning {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #fbbf24;
         }
         
-        /* PAYMENT METHODS */
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .payment-method {
+        /* INSTRUCTIONS */
+        .instructions {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 12px;
             padding: 16px;
+            margin-top: 16px;
+        }
+        .instructions h4 { color: var(--primary); margin-bottom: 12px; font-size: 14px; }
+        .instructions ol { padding-left: 18px; }
+        .instructions li { margin-bottom: 8px; color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+        .instructions li strong { color: var(--text); }
+        
+        /* WHATSAPP BUTTON */
+        .whatsapp-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); color: white; }
+        
+        /* WALLET CONNECT */
+        .wallet-connect-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        .wallet-connect-section h3 { margin-bottom: 20px; font-size: 20px; }
+        
+        .wallet-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+        .wallet-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
             background: rgba(0,0,0,0.2);
             border: 2px solid rgba(255,255,255,0.1);
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
+            text-decoration: none;
+        }
+        .wallet-option:hover { border-color: var(--primary); background: rgba(0, 212, 170, 0.05); }
+        .wallet-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(255,255,255,0.1);
+        }
+        .wallet-name { font-weight: 600; font-size: 13px; color: var(--text); }
+        .wallet-desc { font-size: 10px; color: var(--text-muted); }
+        
+        .wallet-more {
             text-align: center;
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--primary);
+            transition: all 0.3s;
         }
-        .payment-method:hover {
-            border-color: rgba(255,255,255,0.3);
-        }
-        .payment-method.selected {
-            border-color: var(--primary);
-            background: rgba(0, 212, 170, 0.1);
-        }
-        .payment-method .icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        .payment-method .name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .payment-method .fee {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+        .wallet-more:hover { background: rgba(0, 212, 170, 0.1); }
+        
+        .wallet-hidden { display: none; }
+        .wallet-hidden.show { display: grid; }
         
         /* QR CODE */
         .qr-section {
             text-align: center;
-            padding: 32px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 16px;
-            margin-bottom: 24px;
-        }
-        .qr-code {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 16px;
-            background: #fff;
-            border-radius: 12px;
-            padding: 16px;
-        }
-        .qr-code canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-        .qr-instructions {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-        
-        /* WALLET CONNECT */
-        .wallet-options {
-            display: grid;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .wallet-option {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 20px;
-            background: rgba(0,0,0,0.2);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .wallet-option:hover {
-            border-color: var(--primary);
-            background: rgba(0, 212, 170, 0.05);
-        }
-        .wallet-option .wallet-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        .wallet-option .wallet-name {
-            font-weight: 600;
-        }
-        .wallet-option .wallet-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        
-        /* RECURRING BUY */
-        .recurring-section {
-            background: rgba(212, 165, 116, 0.1);
-            border: 1px solid rgba(212, 165, 116, 0.3);
-            border-radius: 16px;
             padding: 24px;
-            margin-top: 24px;
-        }
-        .recurring-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .recurring-header h4 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .toggle {
-            position: relative;
-            width: 50px;
-            height: 26px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 13px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .toggle.active {
-            background: var(--primary);
-        }
-        .toggle::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 20px;
-            height: 20px;
-            background: #fff;
-            border-radius: 50%;
-            transition: transform 0.3s;
-        }
-        .toggle.active::after {
-            transform: translateX(24px);
-        }
-        .recurring-options {
-            display: none;
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .recurring-options.show {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-        }
-        .recurring-option {
-            padding: 12px;
             background: rgba(0,0,0,0.2);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            border-radius: 14px;
+            margin-top: 20px;
         }
-        .recurring-option:hover, .recurring-option.selected {
-            border-color: var(--gold);
-            background: rgba(212, 165, 116, 0.2);
+        .qr-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-muted); }
+        .qr-code-container {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        .qr-code-container img { display: block; }
+        .qr-instructions { font-size: 13px; color: var(--text-muted); }
+        .qr-address {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: var(--primary);
+            background: rgba(0, 212, 170, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            word-break: break-all;
         }
         
-        /* FEATURES SECTION */
-        .features {
-            padding: 120px 40px;
-            background: var(--bg-dark);
-        }
-        .section-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-        .section-header h2 {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-        .section-header h2 span {
-            color: var(--primary);
-        }
-        .section-header p {
-            color: var(--text-muted);
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-        }
+        /* FEATURES */
+        .features { background: var(--bg-dark); }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         .feature-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 30px;
             transition: all 0.3s;
         }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 212, 170, 0.3);
-        }
+        .feature-card:hover { transform: translateY(-5px); border-color: rgba(0, 212, 170, 0.3); }
         .feature-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
-            margin-bottom: 24px;
+            font-size: 28px;
+            margin-bottom: 20px;
         }
-        .feature-card h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .feature-card p {
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
+        .feature-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+        .feature-card p { color: var(--text-muted); line-height: 1.7; font-size: 14px; }
         
-        /* STATS SECTION */
+        /* STATS */
         .stats-section {
-            padding: 80px 40px;
+            padding: 60px 20px;
             background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(0, 212, 170, 0.05));
         }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .stat-item {
-            text-align: center;
-            padding: 32px;
-        }
-        .stat-item h3 {
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--gold);
-            margin-bottom: 8px;
-        }
-        .stat-item p {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
+        .stat-item { text-align: center; padding: 24px; }
+        .stat-item h3 { font-size: 36px; font-weight: 900; color: var(--gold); margin-bottom: 6px; }
+        .stat-item p { color: var(--text-muted); font-size: 14px; }
         
-        /* COMPARISON SECTION */
-        .comparison {
-            padding: 120px 40px;
-            background: var(--bg-card);
-        }
-        .comparison-table {
+        /* COMPARISON - HIGHLIGHTED */
+        .comparison { padding: 80px 20px; background: var(--bg-card); }
+        .comparison-box {
             max-width: 900px;
             margin: 0 auto;
-            background: rgba(255,255,255,0.02);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.05), rgba(212, 165, 116, 0.05));
+            border: 2px solid rgba(0, 212, 170, 0.2);
+            border-radius: 24px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
         }
-        .comparison-header {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+        .comparison-header-text {
+            text-align: center;
+            padding: 30px;
             background: rgba(0, 212, 170, 0.1);
-            padding: 20px 32px;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .comparison-row {
+        .comparison-header-text h3 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+        .comparison-header-text p { color: var(--text-muted); font-size: 16px; }
+        .comparison-highlight {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            padding: 20px 32px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            align-items: center;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px;
         }
-        .comparison-row:last-child {
-            border-bottom: none;
+        .compare-card {
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
         }
-        .comparison-row .pkrt {
-            color: var(--primary);
-            font-weight: 700;
+        .compare-card.pkrt {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(0, 212, 170, 0.05));
+            border: 2px solid var(--primary);
         }
-        .comparison-row .traditional {
-            color: #ef4444;
+        .compare-card.traditional {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.05));
+            border: 2px solid rgba(239, 68, 68, 0.3);
         }
+        .compare-card h4 { font-size: 18px; margin-bottom: 16px; }
+        .compare-card.pkrt h4 { color: var(--primary); }
+        .compare-card.traditional h4 { color: #ef4444; }
+        .compare-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        .compare-item:last-child { border-bottom: none; }
+        .compare-item .label { color: var(--text-muted); }
+        .compare-item .value { font-weight: 600; }
+        .compare-card.pkrt .value { color: var(--primary); }
+        .compare-card.traditional .value { color: #ef4444; }
         
         /* ROADMAP */
-        .roadmap {
-            padding: 120px 40px;
-        }
-        .roadmap-timeline {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
+        .roadmap { padding: 80px 20px; }
+        .roadmap-timeline { max-width: 800px; margin: 0 auto; position: relative; }
         .roadmap-timeline::before {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 4px;
+            width: 3px;
             background: linear-gradient(to bottom, var(--primary), var(--gold));
             transform: translateX(-50%);
         }
@@ -674,20 +703,16 @@
             justify-content: flex-end;
             padding-right: 50%;
             position: relative;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
-        .roadmap-item:nth-child(even) {
-            justify-content: flex-start;
-            padding-right: 0;
-            padding-left: 50%;
-        }
+        .roadmap-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: 50%; }
         .roadmap-item::before {
             content: '';
             position: absolute;
             left: 50%;
-            top: 20px;
-            width: 24px;
-            height: 24px;
+            top: 16px;
+            width: 20px;
+            height: 20px;
             background: var(--primary);
             border-radius: 50%;
             transform: translateX(-50%);
@@ -696,93 +721,65 @@
         .roadmap-content {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 400px;
-            margin: 0 40px;
+            border-radius: 14px;
+            padding: 20px;
+            max-width: 350px;
+            margin: 0 30px;
         }
-        .roadmap-content h4 {
-            color: var(--primary);
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        .roadmap-content h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-        .roadmap-content p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+        .roadmap-content h4 { color: var(--primary); font-size: 13px; margin-bottom: 6px; }
+        .roadmap-content h3 { font-size: 18px; margin-bottom: 10px; }
+        .roadmap-content p { color: var(--text-muted); font-size: 13px; }
         
         /* HOW TO BUY */
-        .how-to-buy {
-            padding: 120px 40px;
-            background: var(--bg-card);
-        }
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .how-to-buy { padding: 80px 20px; background: var(--bg-card); }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
         .step-card {
             text-align: center;
-            padding: 40px 24px;
+            padding: 30px 20px;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px;
+            border-radius: 16px;
         }
         .step-number {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             color: #000;
-            margin: 0 auto 24px;
+            margin: 0 auto 20px;
         }
-        .step-card h3 {
-            font-size: 18px;
-            margin-bottom: 12px;
-        }
-        .step-card p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+        .step-card h3 { font-size: 16px; margin-bottom: 10px; }
+        .step-card p { color: var(--text-muted); font-size: 13px; }
         
-        /* CONTRACT SECTION */
+        /* CONTRACT */
         .contract-section {
-            padding: 80px 40px;
+            padding: 60px 20px;
             background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(0, 212, 170, 0.05));
         }
         .contract-box {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 30px;
             text-align: center;
         }
-        .contract-box h3 {
-            font-size: 24px;
-            margin-bottom: 24px;
-        }
+        .contract-box h3 { font-size: 20px; margin-bottom: 20px; }
         .contract-address {
             background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 16px 24px;
+            border-radius: 10px;
+            padding: 14px 20px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--primary);
             word-break: break-all;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .copy-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -799,65 +796,38 @@
         .footer {
             background: var(--bg-card);
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 80px 40px 40px;
+            padding: 60px 20px 30px;
         }
-        .footer-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 60px;
-        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
         .footer-brand h3 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             background: linear-gradient(135deg, var(--gold), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .footer-brand p {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.8;
-        }
-        .footer-col h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        .footer-col a {
-            display: block;
-            color: var(--text);
-            text-decoration: none;
-            margin-bottom: 12px;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-        .footer-col a:hover {
-            color: var(--primary);
-        }
+        .footer-brand p { color: var(--text-muted); font-size: 13px; line-height: 1.7; }
+        .footer-col h4 { font-size: 13px; font-weight: 600; margin-bottom: 16px; color: var(--text-muted); text-transform: uppercase; }
+        .footer-col a { display: block; color: var(--text); text-decoration: none; margin-bottom: 10px; font-size: 13px; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--primary); }
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 40px;
+            padding-top: 30px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 12px;
             align-items: center;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
         }
-        .social-links {
-            display: flex;
-            gap: 16px;
-        }
+        .footer-dedication { font-size: 14px; color: var(--gold); font-style: italic; }
+        .footer-dedication span { color: #ff6b9d; }
+        .social-links { display: flex; gap: 12px; }
         .social-links a {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: rgba(255,255,255,0.05);
             border-radius: 50%;
             display: flex;
@@ -867,10 +837,7 @@
             text-decoration: none;
             transition: all 0.3s;
         }
-        .social-links a:hover {
-            background: var(--primary);
-            color: #000;
-        }
+        .social-links a:hover { background: var(--primary); color: #000; }
         
         /* LOGIN MODAL */
         .login-overlay {
@@ -882,286 +849,181 @@
             justify-content: center;
             z-index: 2000;
         }
-        .login-overlay.show {
-            display: flex;
-        }
+        .login-overlay.show { display: flex; }
         .login-box {
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 48px;
+            border-radius: 16px;
+            padding: 40px;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
+            position: relative;
         }
-        .login-box h2 {
-            font-size: 28px;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .login-box p {
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 32px;
-        }
+        .login-box h2 { font-size: 24px; margin-bottom: 6px; text-align: center; }
+        .login-box > p { color: var(--text-muted); text-align: center; margin-bottom: 24px; font-size: 14px; }
         .login-error {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: 8px;
-            padding: 12px;
+            padding: 10px;
             color: #f87171;
-            font-size: 14px;
-            margin-bottom: 20px;
+            font-size: 13px;
+            margin-bottom: 16px;
             display: none;
         }
         .login-close {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 16px;
+            right: 16px;
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 32px;
+            font-size: 28px;
             cursor: pointer;
         }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--text-muted); }
+        .form-group input {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 14px;
+            color: var(--text);
+            font-size: 15px;
+        }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
         
-        /* DASHBOARD PAGE */
-        .dashboard-page {
-            display: none;
-            padding: 120px 40px 80px;
-            min-height: 100vh;
-        }
-        .dashboard-page.show {
-            display: block;
-        }
-        .main-page.hide {
-            display: none;
-        }
+        /* DASHBOARD */
+        .dashboard-page { display: none; padding: 160px 20px 60px; min-height: 100vh; }
+        .dashboard-page.show { display: block; }
+        .main-page.hide { display: none; }
         .dashboard-header {
-            max-width: 1400px;
-            margin: 0 auto 40px;
+            max-width: 1200px;
+            margin: 0 auto 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .dashboard-header h1 {
-            font-size: 32px;
-        }
+        .dashboard-header h1 { font-size: 28px; }
         .logout-btn {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
             color: #f87171;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
         }
         
-        /* DASHBOARD TABS */
-        .dashboard-tabs {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .dashboard-tabs { max-width: 1200px; margin: 0 auto; }
         .tabs-nav {
             display: flex;
             gap: 4px;
             background: rgba(255,255,255,0.02);
-            padding: 6px;
-            border-radius: 12px;
-            margin-bottom: 32px;
+            padding: 4px;
+            border-radius: 10px;
+            margin-bottom: 24px;
             width: fit-content;
-            flex-wrap: wrap;
         }
         .tab-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
         }
-        .tab-btn.active {
-            background: var(--primary);
-            color: #000;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
+        .tab-btn.active { background: var(--primary); color: #000; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         
-        /* GOAL TRACKER */
         .goal-tracker {
             background: linear-gradient(135deg, rgba(212, 165, 116, 0.15), rgba(0, 212, 170, 0.1));
             border: 2px solid rgba(212, 165, 116, 0.3);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 32px;
-        }
-        .goal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-radius: 16px;
+            padding: 24px;
             margin-bottom: 24px;
         }
-        .goal-title {
-            font-size: 24px;
-            font-weight: 800;
-        }
-        .goal-current {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--gold);
-        }
+        .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .goal-title { font-size: 20px; font-weight: 800; }
+        .goal-current { font-size: 28px; font-weight: 800; color: var(--gold); }
         .progress-bar {
-            height: 24px;
+            height: 20px;
             background: rgba(0,0,0,0.4);
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             margin-bottom: 16px;
         }
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--gold));
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 12px;
-            font-size: 12px;
+            padding-right: 10px;
+            font-size: 11px;
             font-weight: 700;
             color: #000;
         }
-        .goal-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
+        .goal-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
         .goal-stat {
             background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 16px;
             text-align: center;
         }
-        .goal-stat h4 {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        .goal-stat .value {
-            font-size: 24px;
-            font-weight: 700;
-        }
+        .goal-stat h4 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+        .goal-stat .value { font-size: 20px; font-weight: 700; }
         .goal-stat .value.green { color: var(--primary); }
         .goal-stat .value.gold { color: var(--gold); }
         .goal-stat .value.purple { color: #a855f7; }
         .goal-stat .value.blue { color: #3b82f6; }
         
-        /* SOCIAL MEDIA TRACKER */
         .tracker-section {
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 32px;
+            border-radius: 16px;
+            padding: 24px;
         }
-        .tracker-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .tracker-header h3 {
-            font-size: 20px;
-        }
-        .platform-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
+        .tracker-header h3 { font-size: 18px; margin-bottom: 20px; }
+        .platform-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
         .platform-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
         .platform-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
+            font-size: 20px;
         }
         .platform-icon.twitter { background: linear-gradient(135deg, #1da1f2, #0d8ecf); }
         .platform-icon.telegram { background: linear-gradient(135deg, #0088cc, #006699); }
         .platform-icon.discord { background: linear-gradient(135deg, #5865f2, #4752c4); }
         .platform-icon.reddit { background: linear-gradient(135deg, #ff4500, #cc3700); }
-        .platform-icon.medium { background: linear-gradient(135deg, #00ab6c, #008f5b); }
-        .platform-icon.facebook { background: linear-gradient(135deg, #1877f2, #0d5ed9); }
-        .platform-icon.linkedin { background: linear-gradient(135deg, #0077b5, #005885); }
-        .platform-icon.github { background: linear-gradient(135deg, #333, #24292e); }
-        .platform-info h4 {
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        .platform-info p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .platform-status {
-            margin-left: auto;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .platform-status.done {
-            background: rgba(0, 212, 170, 0.2);
-            color: var(--primary);
-        }
-        .platform-status.pending {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-        }
-        .platform-status.not-started {
-            background: rgba(100, 116, 139, 0.2);
-            color: #64748b;
-        }
+        .platform-info h4 { font-size: 14px; margin-bottom: 2px; }
+        .platform-info p { font-size: 11px; color: var(--text-muted); }
         
-        /* POSTING SCHEDULE */
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 24px;
-        }
-        .schedule-table th,
-        .schedule-table td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .schedule-table th {
-            color: var(--text-muted);
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-        
-        /* TRANSACTION FEED */
         .tx-feed {
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
         }
         .tx-feed-header {
-            padding: 20px 24px;
+            padding: 16px 20px;
             background: rgba(0, 212, 170, 0.1);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
@@ -1172,70 +1034,44 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
+            padding: 14px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .tx-item:last-child {
-            border-bottom: none;
-        }
-        .tx-type {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .tx-item:last-child { border-bottom: none; }
+        .tx-type { display: flex; align-items: center; gap: 10px; }
         .tx-type-icon {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
         }
-        .tx-type-icon.buy {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-        }
-        .tx-type-icon.sell {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-        .tx-amount {
-            font-weight: 700;
-        }
+        .tx-type-icon.buy { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
+        .tx-type-icon.sell { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .tx-amount { font-weight: 700; font-size: 14px; }
         .tx-amount.buy { color: var(--primary); }
         .tx-amount.sell { color: #ef4444; }
         
-        /* SUCCESS MODAL */
-        .success-modal {
+        /* ALERT BANNER */
+        .alert-banner {
             position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
+            top: 130px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--gold));
+            color: #000;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 700;
             display: none;
-            align-items: center;
-            justify-content: center;
             z-index: 3000;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 10px 40px rgba(0, 212, 170, 0.5);
+            font-size: 14px;
         }
-        .success-modal.show {
-            display: flex;
-        }
-        .success-content {
-            background: var(--bg-card);
-            border: 2px solid var(--primary);
-            border-radius: 24px;
-            padding: 48px;
-            text-align: center;
-            max-width: 500px;
-        }
-        .success-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-        }
-        .success-content h2 {
-            color: var(--primary);
-            margin-bottom: 16px;
-        }
-        .success-content p {
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
+        .alert-banner.show { display: block; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         
         @media (max-width: 1024px) {
             .hero-inner { grid-template-columns: 1fr; text-align: center; }
@@ -1246,22 +1082,26 @@
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .goal-stats { grid-template-columns: repeat(2, 1fr); }
             .buy-grid { grid-template-columns: 1fr; }
+            .wallet-grid { grid-template-columns: 1fr; }
+            .comparison-highlight { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
-            .hero h1 { font-size: 40px; }
+            .hero h1 { font-size: 36px; }
             .nav-links { display: none; }
-            .comparison-header, .comparison-row { grid-template-columns: 1fr; }
-            .roadmap-timeline::before { left: 20px; }
-            .roadmap-item { padding-right: 0; padding-left: 60px; justify-content: flex-start; }
-            .roadmap-item::before { left: 20px; }
-            .roadmap-item:nth-child(even) { padding-left: 60px; }
-            .payment-methods { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .recurring-options.show { grid-template-columns: 1fr; }
+            .price-ticker { gap: 15px; font-size: 12px; padding: 8px 15px; }
+            .roadmap-timeline::before { left: 15px; }
+            .roadmap-item { padding-right: 0; padding-left: 45px; justify-content: flex-start; }
+            .roadmap-item::before { left: 15px; }
+            .roadmap-item:nth-child(even) { padding-left: 45px; }
+            .region-buttons { grid-template-columns: 1fr; }
+            .live-price-box { flex-direction: column; gap: 12px; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
+    <!-- ALERT BANNER -->
+    <div class="alert-banner" id="alertBanner">🎉 NEW BUY!</div>
+
     <!-- NAVIGATION -->
     <nav class="nav">
         <div class="nav-inner">
@@ -1270,39 +1110,78 @@
                 <span class="logo-text">PakRupee</span>
             </a>
             <div class="nav-links">
-                <a href="#buy-pkrt">Buy PKRT</a>
+                <a href="#buy">Buy PKRT</a>
                 <a href="#features">Features</a>
                 <a href="#roadmap">Roadmap</a>
-                <a href="whitepaper.pdf">Whitepaper</a>
-                <a href="#" class="nav-btn" onclick="showLogin()">Dashboard</a>
+                <a href="#" onclick="showLogin()" class="nav-btn">Dashboard</a>
             </div>
         </div>
     </nav>
 
+    <!-- LIVE PRICE TICKER -->
+    <div class="price-ticker">
+        <div class="ticker-item">
+            <span class="ticker-label">PKRT:</span>
+            <span class="ticker-value" id="tickerPrice">--</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-label">MCap:</span>
+            <span class="ticker-value" id="tickerMcap">--</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-label">24h Vol:</span>
+            <span class="ticker-value" id="tickerVolume">--</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-label">24h:</span>
+            <span class="ticker-value" id="tickerChange">--</span>
+        </div>
+    </div>
+
     <!-- MAIN PAGE -->
     <div class="main-page" id="mainPage">
-        <!-- HERO -->
+        <!-- HERO SECTION -->
         <section class="hero">
             <div class="hero-inner">
                 <div>
-                    <div class="hero-badge">Verified on BscScan</div>
-                    <h1>Send Money Home<br>for <span>0.1% Fee</span></h1>
-                    <p class="hero-desc">PakRupee Token (PKRT) is the cryptocurrency built for Pakistani remittances. Stop paying 5-7% to Western Union. Start sending money home for pennies.</p>
-                    <div class="hero-buttons">
-                        <a href="#buy-pkrt" class="btn-primary btn-gold">
-                            💳 Buy PKRT Now
-                        </a>
-                        <a href="https://biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="btn-primary" target="_blank">
-                            💱 DEX Swap
-                        </a>
-                        <a href="#how-to-buy" class="btn-secondary">
-                            📖 How to Buy
-                        </a>
+                    <div class="hero-badge">Live on BNB Smart Chain</div>
+                    <h1>The Future of <span>Pakistani Remittances</span></h1>
+                    <p class="hero-desc">Send money home for pennies, not dollars. PKRT revolutionizes how Pakistanis worldwide transfer funds with 0.1% fees and instant settlements.</p>
+                    
+                    <!-- LIVE PRICE BOX -->
+                    <div class="live-price-box">
+                        <div class="price-main">
+                            <div class="label">Live PKRT Price</div>
+                            <div class="value" id="heroPrice">Loading...</div>
+                            <div class="price-secondary" id="heroPricePkr">PKR: Loading...</div>
+                        </div>
+                        <div class="price-change">
+                            <div class="change-item">
+                                <span class="label">24h: </span>
+                                <span class="value" id="hero24h">--%</span>
+                            </div>
+                            <div class="change-item">
+                                <span class="label">7d: </span>
+                                <span class="value" id="hero7d">--%</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hero-stats">
+                    
+                    <div class="hero-buttons">
+                        <a href="#buy" class="btn-primary btn-gold">💰 Buy PKRT</a>
+                        <a href="https://dexscreener.com/bsc/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f" target="_blank" class="btn-secondary">📊 Chart</a>
+                    </div>
+                    
+                    <div class="buy-buttons-row">
+                        <a href="https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="buy-btn-small buy-btn-pancake">🥞 PancakeSwap</a>
+                        <a href="https://legacy.biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="buy-btn-small buy-btn-biswap">🔄 Biswap</a>
+                        <a href="https://dexscreener.com/bsc/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f" target="_blank" class="buy-btn-small buy-btn-dexscreener">📈 DexScreener</a>
+                    </div>
+                    
+                    <div class="hero-stats" style="margin-top: 24px;">
                         <div class="hero-stat">
                             <h3>0.1%</h3>
-                            <p>Transaction Fee</p>
+                            <p>Transfer Fee</p>
                         </div>
                         <div class="hero-stat">
                             <h3>1B</h3>
@@ -1310,337 +1189,349 @@
                         </div>
                         <div class="hero-stat">
                             <h3>0%</h3>
-                            <p>Tax Rate</p>
+                            <p>Tax</p>
                         </div>
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <img src="logo.png" alt="PKRT Coin" class="hero-coin">
-                </div>
-            </div>
-        </section>
-
-        <!-- BUY PKRT SECTION - NEW FUNCTIONALITY -->
-        <section class="buy-pkrt-section" id="buy-pkrt">
-            <div class="buy-container">
-                <div class="section-header">
-                    <h2>💳 <span>Buy PKRT</span> Instantly</h2>
-                    <p>Multiple payment options - No crypto experience needed!</p>
-                </div>
-                
-                <div class="buy-grid">
-                    <!-- Left: Buy Form -->
-                    <div class="buy-card">
-                        <h3><span class="icon">🛒</span> Quick Buy</h3>
-                        
-                        <!-- Progress Steps -->
-                        <div class="buy-steps">
-                            <div class="buy-step active" id="step1">
-                                <div class="step-num">1</div>
-                                <div class="step-content">
-                                    <h4>Enter Amount</h4>
-                                    <p>How much PKRT do you want?</p>
-                                </div>
-                            </div>
-                            <div class="buy-step" id="step2">
-                                <div class="step-num">2</div>
-                                <div class="step-content">
-                                    <h4>Choose Payment</h4>
-                                    <p>Select your preferred method</p>
-                                </div>
-                            </div>
-                            <div class="buy-step" id="step3">
-                                <div class="step-num">3</div>
-                                <div class="step-content">
-                                    <h4>Confirm Purchase</h4>
-                                    <p>Complete and receive PKRT</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Step 1: Amount -->
-                        <div id="step1-content">
-                            <div class="form-group">
-                                <label>You Pay (USD)</label>
-                                <input type="number" id="usdAmount" placeholder="Enter amount in USD" value="50" min="10" max="10000">
-                            </div>
-                            <div class="form-group">
-                                <label>You Receive (PKRT)</label>
-                                <input type="text" id="pkrtAmount" placeholder="PKRT amount" readonly>
-                            </div>
-                            <button class="btn-primary" style="width: 100%;" onclick="goToStep(2)">
-                                Continue →
-                            </button>
-                        </div>
-                        
-                        <!-- Step 2: Payment Method -->
-                        <div id="step2-content" style="display: none;">
-                            <label style="display: block; margin-bottom: 12px; font-weight: 600;">Select Payment Method</label>
-                            <div class="payment-methods">
-                                <div class="payment-method selected" onclick="selectPayment(this, 'card')">
-                                    <div class="icon">💳</div>
-                                    <div class="name">Credit/Debit Card</div>
-                                    <div class="fee">~2.9% fee</div>
-                                </div>
-                                <div class="payment-method" onclick="selectPayment(this, 'bank')">
-                                    <div class="icon">🏦</div>
-                                    <div class="name">Bank Transfer</div>
-                                    <div class="fee">~1.5% fee</div>
-                                </div>
-                                <div class="payment-method" onclick="selectPayment(this, 'easypaisa')">
-                                    <div class="icon">📱</div>
-                                    <div class="name">Easypaisa</div>
-                                    <div class="fee">~1% fee</div>
-                                </div>
-                                <div class="payment-method" onclick="selectPayment(this, 'jazzcash')">
-                                    <div class="icon">💰</div>
-                                    <div class="name">JazzCash</div>
-                                    <div class="fee">~1% fee</div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>Wallet Address (PKRT Destination)</label>
-                                <input type="text" id="walletAddress" placeholder="0x... your BSC wallet address">
-                            </div>
-                            
-                            <div style="display: flex; gap: 12px;">
-                                <button class="btn-secondary" style="flex: 1;" onclick="goToStep(1)">← Back</button>
-                                <button class="btn-primary" style="flex: 1;" onclick="goToStep(3)">Continue →</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Step 3: Confirm -->
-                        <div id="step3-content" style="display: none;">
-                            <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                    <span style="color: var(--text-muted);">Amount:</span>
-                                    <span id="confirmAmount">$50.00</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                    <span style="color: var(--text-muted);">PKRT:</span>
-                                    <span id="confirmPKRT">0 PKRT</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-                                    <span style="color: var(--text-muted);">Payment:</span>
-                                    <span id="confirmPayment">Credit/Debit Card</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
-                                    <span style="color: var(--text-muted);">Fee:</span>
-                                    <span id="confirmFee">$1.45</span>
-                                </div>
-                            </div>
-                            
-                            <div style="display: flex; gap: 12px;">
-                                <button class="btn-secondary" style="flex: 1;" onclick="goToStep(2)">← Back</button>
-                                <button class="btn-primary btn-gold" style="flex: 1;" onclick="completePurchase()">
-                                    ✅ Buy Now
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Recurring Buy -->
-                        <div class="recurring-section">
-                            <div class="recurring-header">
-                                <h4>🔄 Recurring Buy</h4>
-                                <div class="toggle" id="recurringToggle" onclick="toggleRecurring()"></div>
-                            </div>
-                            <p style="font-size: 14px; color: var(--text-muted);">Set up automatic weekly or monthly purchases</p>
-                            <div class="recurring-options" id="recurringOptions">
-                                <div class="recurring-option" onclick="selectRecurring(this, 'weekly')">Weekly</div>
-                                <div class="recurring-option selected" onclick="selectRecurring(this, 'monthly')">Monthly</div>
-                                <div class="recurring-option" onclick="selectRecurring(this, 'biweekly')">Bi-weekly</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Right: QR & Wallet Connect -->
-                    <div>
-                        <!-- QR Code -->
-                        <div class="buy-card" style="margin-bottom: 24px;">
-                            <h3><span class="icon">📸</span> Scan to Buy</h3>
-                            <div class="qr-section">
-                                <div class="qr-code" id="qrCode"></div>
-                                <p class="qr-instructions">Scan with your phone camera to open the buy page</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Wallet Connect -->
-                        <div class="buy-card">
-                            <h3><span class="icon">🔗</span> Connect Wallet</h3>
-                            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 14px;">Already have a crypto wallet? Connect for one-click purchases!</p>
-                            
-                            <div class="wallet-options">
-                                <div class="wallet-option" onclick="connectWallet('metamask')">
-                                    <div class="wallet-icon">🦊</div>
-                                    <div>
-                                        <div class="wallet-name">MetaMask</div>
-                                        <div class="wallet-desc">Most popular wallet</div>
-                                    </div>
-                                </div>
-                                <div class="wallet-option" onclick="connectWallet('trust')">
-                                    <div class="wallet-icon">🛡️</div>
-                                    <div>
-                                        <div class="wallet-name">Trust Wallet</div>
-                                        <div class="wallet-desc">Mobile wallet</div>
-                                    </div>
-                                </div>
-                                <div class="wallet-option" onclick="connectWallet('walletconnect')">
-                                    <div class="wallet-icon">🔗</div>
-                                    <div>
-                                        <div class="wallet-name">WalletConnect</div>
-                                        <div class="wallet-desc">Scan to connect</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="coin-container">
+                        <div class="coin-glow"></div>
+                        <img src="logo.png" alt="PKRT Coin" class="hero-coin">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FEATURES -->
-        <section class="features" id="features">
+        <!-- WHY CHOOSE PKRT - MOVED UP -->
+        <section class="features section" id="features">
             <div class="section-inner">
                 <div class="section-header">
                     <h2>Why <span>PKRT</span>?</h2>
-                    <p>Built on BNB Smart Chain for speed, security, and ultra-low fees</p>
+                    <p>Built specifically for Pakistani remittances</p>
                 </div>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">💸</div>
-                        <h3>Ultra Low Fees</h3>
-                        <p>Send any amount to Pakistan for just 0.1% fee. Compare that to Western Union's 5-7%. Save thousands every year on remittances.</p>
+                        <h3>Ultra-Low Fees</h3>
+                        <p>Only 0.1% per transaction vs 5-7% traditional. Save thousands yearly.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">⚡</div>
                         <h3>Instant Transfers</h3>
-                        <p>Transactions confirm in seconds, not days. Your family receives money almost instantly, 24/7, 365 days a year.</p>
+                        <p>Money arrives in seconds, not days. No waiting for bank processing.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔒</div>
                         <h3>Secure & Transparent</h3>
-                        <p>Built on BNB Smart Chain with verified smart contract. Every transaction is recorded on the blockchain. No hidden fees, no surprises.</p>
+                        <p>Built on BNB Smart Chain. Every transaction verifiable on blockchain.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🌍</div>
-                        <h3>Borderless</h3>
-                        <p>Send PKRT from anywhere in the world. No bank approvals, no waiting for business hours, no international transfer limits.</p>
+                        <h3>Global Access</h3>
+                        <p>Send from anywhere, 24/7. No bank hours, no borders, no restrictions.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📱</div>
                         <h3>Easy to Use</h3>
-                        <p>Just a MetaMask wallet and some BNB. Buy PKRT on Biswap or PancakeSwap in under 2 minutes. No complicated setup required.</p>
+                        <p>Buy with JazzCash, EasyPaisa, or any crypto wallet. Simple interface.</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon">🇵🇰</div>
-                        <h3>Built for Pakistanis</h3>
-                        <p>Created specifically for the Pakistani diaspora. Our mission is to help hard-working Pakistanis save money on remittances.</p>
+                        <div class="feature-icon">💎</div>
+                        <h3>Fixed Supply</h3>
+                        <p>1 billion tokens max. No inflation, no dilution. Your value protected.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- STATS -->
+        <!-- LIVE STATS -->
         <section class="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <h3>$9M+</h3>
-                    <p>Pakistani Remittances Daily</p>
+                    <h3 id="statMcap">$0</h3>
+                    <p>Market Cap</p>
                 </div>
                 <div class="stat-item">
-                    <h3>70x</h3>
-                    <p>Cheaper than Banks</p>
+                    <h3 id="statHolders">0</h3>
+                    <p>Holders</p>
                 </div>
                 <div class="stat-item">
-                    <h3>3 Sec</h3>
-                    <p>Transaction Speed</p>
+                    <h3 id="statVolume">$0</h3>
+                    <p>24h Volume</p>
                 </div>
                 <div class="stat-item">
-                    <h3>0%</h3>
-                    <p>Hidden Fees</p>
+                    <h3 id="statLiq">$0</h3>
+                    <p>Liquidity</p>
                 </div>
             </div>
         </section>
 
-        <!-- COMPARISON -->
-        <section class="comparison">
+        <!-- BUY PKRT SECTION -->
+        <section class="section buy-section" id="buy">
             <div class="section-inner">
                 <div class="section-header">
-                    <h2>Fee <span>Comparison</span></h2>
-                    <p>See how much you can save with PKRT</p>
+                    <h2>Buy <span>PKRT</span></h2>
+                    <p>Choose your preferred payment method</p>
                 </div>
-                <div class="comparison-table">
-                    <div class="comparison-header">
-                        <span>Service</span>
-                        <span>Fee on $500</span>
-                        <span>You Save</span>
+                
+                <div class="buy-grid">
+                    <div class="buy-card">
+                        <h3>💳 Buy PKRT</h3>
+                        
+                        <!-- REGION BUTTONS -->
+                        <div class="region-buttons">
+                            <a href="#" class="region-btn region-btn-pakistan" onclick="togglePakistan(event)">
+                                <div class="flag">🇵🇰</div>
+                                <div class="title">Pakistan Users</div>
+                                <div class="subtitle">JazzCash / EasyPaisa</div>
+                            </a>
+                            <a href="#" class="region-btn region-btn-us" onclick="toggleUS(event)">
+                                <div class="flag">🇺🇸</div>
+                                <div class="title">International Users</div>
+                                <div class="subtitle">Card / Bank / Crypto</div>
+                            </a>
+                        </div>
+                        
+                        <!-- PAKISTAN OPTIONS -->
+                        <div class="pak-options" id="pakOptions">
+                            <h4>📱 Send Payment to:</h4>
+                            <div class="payment-method">
+                                <div class="payment-logo jazzcash">JC</div>
+                                <div class="payment-details">
+                                    <h5>JazzCash</h5>
+                                    <p>Instant payment</p>
+                                </div>
+                                <div class="payment-number">0302-1888-666</div>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-logo easypaisa">EP</div>
+                                <div class="payment-details">
+                                    <h5>EasyPaisa</h5>
+                                    <p>Instant payment</p>
+                                </div>
+                                <div class="payment-number">0302-1888-666</div>
+                            </div>
+                            
+                            <!-- CONVERTER -->
+                            <div class="converter-section">
+                                <h4>💱 PKR to PKRT</h4>
+                                <div class="converter-row">
+                                    <input type="number" class="converter-input" id="pkrAmount" placeholder="PKR Amount" oninput="convertPKR()">
+                                    <div class="converter-arrow">→</div>
+                                    <div class="converter-result">
+                                        <div class="amount" id="pkrtAmount">0</div>
+                                        <div class="label">PKRT</div>
+                                    </div>
+                                </div>
+                                <div class="rate-info" id="rateInfo">Loading live rate...</div>
+                            </div>
+                            
+                            <div class="wallet-input-section">
+                                <label>Your BNB Chain Wallet Address *</label>
+                                <input type="text" id="walletAddress" placeholder="0x...">
+                                <div class="chain-warning">⚠️ Must be BNB Smart Chain (ID: 56)</div>
+                            </div>
+                            
+                            <div class="instructions">
+                                <h4>📋 Steps:</h4>
+                                <ol>
+                                    <li><strong>Send PKR</strong> to 0302-1888-666</li>
+                                    <li><strong>Screenshot</strong> your payment</li>
+                                    <li><strong>WhatsApp</strong> proof + wallet to 03021888666</li>
+                                    <li><strong>Receive PKRT</strong> in minutes!</li>
+                                </ol>
+                            </div>
+                            
+                            <a href="https://wa.me/923021888666?text=Hi!%20I%20want%20to%20buy%20PKRT." target="_blank" class="whatsapp-btn">📱 WhatsApp Proof</a>
+                        </div>
+                        
+                        <!-- US OPTIONS -->
+                        <div class="us-options" id="usOptions">
+                            <h4>🛒 Buy Instantly:</h4>
+                            <div class="us-links">
+                                <a href="https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="us-link">
+                                    <span class="icon">🥞</span>
+                                    <div>
+                                        <div class="name">PancakeSwap</div>
+                                        <div class="desc">Best rates, swap BNB for PKRT</div>
+                                    </div>
+                                </a>
+                                <a href="https://legacy.biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="us-link">
+                                    <span class="icon">🔄</span>
+                                    <div>
+                                        <div class="name">Biswap</div>
+                                        <div class="desc">Low fees DEX on BNB Chain</div>
+                                    </div>
+                                </a>
+                                <a href="https://app.1inch.io/56/swap/BNB/0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="us-link">
+                                    <span class="icon">🦄</span>
+                                    <div>
+                                        <div class="name">1inch</div>
+                                        <div class="desc">Aggregator - best price finder</div>
+                                    </div>
+                                </a>
+                                <a href="https://simple.swap/crypto/bnb-to-pkrt?amount=0.01&fix=false&destination=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank" class="us-link">
+                                    <span class="icon">💳</span>
+                                    <div>
+                                        <div class="name">SimpleSwap</div>
+                                        <div class="desc">Buy with card - no KYC small amounts</div>
+                                    </div>
+                                </a>
+                                <a href="https://buy.moonpay.com/?defaultCurrencyCode=BNB&walletAddress=YOUR_WALLET" target="_blank" class="us-link">
+                                    <span class="icon">🏦</span>
+                                    <div>
+                                        <div class="name">MoonPay</div>
+                                        <div class="desc">Buy BNB with card, then swap to PKRT</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="comparison-row">
-                        <span>Western Union</span>
-                        <span class="traditional">$25 - $35</span>
-                        <span class="pkrt">$24.50 - $34.50</span>
-                    </div>
-                    <div class="comparison-row">
-                        <span>MoneyGram</span>
-                        <span class="traditional">$20 - $30</span>
-                        <span class="pkrt">$19.50 - $29.50</span>
-                    </div>
-                    <div class="comparison-row">
-                        <span>Bank Transfer</span>
-                        <span class="traditional">$25 - $50</span>
-                        <span class="pkrt">$24.50 - $49.50</span>
-                    </div>
-                    <div class="comparison-row">
-                        <span>PKRT (Biswap)</span>
-                        <span class="pkrt">$0.50</span>
-                        <span class="pkrt">—</span>
+                    
+                    <!-- WALLET CONNECT -->
+                    <div class="wallet-connect-section">
+                        <h3>🔗 Connect Wallet</h3>
+                        
+                        <div class="wallet-grid">
+                            <a href="javascript:void(0)" onclick="connectMetaMask()" class="wallet-option">
+                                <div class="wallet-icon">🦊</div>
+                                <div>
+                                    <div class="wallet-name">MetaMask</div>
+                                    <div class="wallet-desc">Browser extension</div>
+                                </div>
+                            </a>
+                            <a href="https://link.trustwallet.com/open_url?coin_id=56&url=https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">🛡️</div>
+                                <div>
+                                    <div class="wallet-name">Trust Wallet</div>
+                                    <div class="wallet-desc">Mobile app</div>
+                                </div>
+                            </a>
+                            <a href="https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">🔷</div>
+                                <div>
+                                    <div class="wallet-name">Coinbase Wallet</div>
+                                    <div class="wallet-desc">Self-custody</div>
+                                </div>
+                            </a>
+                            <a href="https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">🔗</div>
+                                <div>
+                                    <div class="wallet-name">WalletConnect</div>
+                                    <div class="wallet-desc">Scan QR</div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="wallet-more" onclick="toggleMoreWallets()">+ Show More Wallets</div>
+                        
+                        <div class="wallet-grid wallet-hidden" id="moreWallets">
+                            <a href="https://legacy.biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">🟡</div>
+                                <div>
+                                    <div class="wallet-name">Binance Wallet</div>
+                                    <div class="wallet-desc">Official wallet</div>
+                                </div>
+                            </a>
+                            <a href="https://legacy.biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">🔐</div>
+                                <div>
+                                    <div class="wallet-name">SafePal</div>
+                                    <div class="wallet-desc">Hardware + software</div>
+                                </div>
+                            </a>
+                            <a href="https://legacy.biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">🎒</div>
+                                <div>
+                                    <div class="wallet-name">TokenPocket</div>
+                                    <div class="wallet-desc">Multi-chain</div>
+                                </div>
+                            </a>
+                            <a href="https://legacy.biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" class="wallet-option">
+                                <div class="wallet-icon">💎</div>
+                                <div>
+                                    <div class="wallet-name">BitKeep</div>
+                                    <div class="wallet-desc">Web3 wallet</div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- QR CODE -->
+                        <div class="qr-section">
+                            <div class="qr-title">Scan to Buy</div>
+                            <div class="qr-code-container" id="qrCodeContainer"></div>
+                            <p class="qr-instructions">Scan with wallet app</p>
+                            <div class="qr-address">0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ROADMAP - UPDATED TO 2026 -->
-        <section class="roadmap" id="roadmap">
+        <!-- COMPARISON - IMPROVED -->
+        <section class="comparison section">
+            <div class="comparison-box">
+                <div class="comparison-header-text">
+                    <h3>PKRT vs Traditional Remittance</h3>
+                    <p>See how much you save</p>
+                </div>
+                <div class="comparison-highlight">
+                    <div class="compare-card pkrt">
+                        <h4>✓ PKRT</h4>
+                        <div class="compare-item"><span class="label">Fee on $1000</span><span class="value">$1</span></div>
+                        <div class="compare-item"><span class="label">Transfer Time</span><span class="value">Seconds</span></div>
+                        <div class="compare-item"><span class="label">Minimum</span><span class="value">$0.01</span></div>
+                        <div class="compare-item"><span class="label">Operating</span><span class="value">24/7/365</span></div>
+                        <div class="compare-item"><span class="label">Hidden Fees</span><span class="value">NONE</span></div>
+                        <div class="compare-item"><span class="label">Tracking</span><span class="value">Real-time</span></div>
+                    </div>
+                    <div class="compare-card traditional">
+                        <h4>✗ Traditional</h4>
+                        <div class="compare-item"><span class="label">Fee on $1000</span><span class="value">$50-70</span></div>
+                        <div class="compare-item"><span class="label">Transfer Time</span><span class="value">3-5 Days</span></div>
+                        <div class="compare-item"><span class="label">Minimum</span><span class="value">$100+</span></div>
+                        <div class="compare-item"><span class="label">Operating</span><span class="value">Business hrs</span></div>
+                        <div class="compare-item"><span class="label">Hidden Fees</span><span class="value">Many</span></div>
+                        <div class="compare-item"><span class="label">Tracking</span><span class="value">Limited</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROADMAP -->
+        <section class="roadmap section" id="roadmap">
             <div class="section-inner">
                 <div class="section-header">
-                    <h2>Project <span>Roadmap</span></h2>
-                    <p>Our journey to revolutionize Pakistani remittances</p>
+                    <h2>Roadmap <span>2026</span></h2>
+                    <p>Building the future</p>
                 </div>
                 <div class="roadmap-timeline">
                     <div class="roadmap-item">
                         <div class="roadmap-content">
-                            <h4>Q1 2026 ✅</h4>
-                            <h3>Token Launch</h3>
-                            <p>PKRT deployed on BNB Smart Chain, liquidity added, contract verified on BscScan</p>
-                        </div>
-                    </div>
-                    <div class="roadmap-item">
-                        <div class="roadmap-content">
                             <h4>Q1 2026</h4>
-                            <h3>Buy PKRT System</h3>
-                            <p>One-click buy with credit cards, Easypaisa, JazzCash integration</p>
+                            <h3>Token Launch</h3>
+                            <p>✓ BNB Chain deployment<br>✓ Liquidity locked<br>✓ Community building</p>
                         </div>
                     </div>
                     <div class="roadmap-item">
                         <div class="roadmap-content">
                             <h4>Q2 2026</h4>
                             <h3>Exchange Listings</h3>
-                            <p>CEX listings, CoinGecko & CoinMarketCap, increased liquidity</p>
+                            <p>CoinGecko & CMC<br>CEX partnerships<br>Marketing</p>
                         </div>
                     </div>
                     <div class="roadmap-item">
                         <div class="roadmap-content">
                             <h4>Q3 2026</h4>
                             <h3>Mobile App</h3>
-                            <p>iOS & Android wallet app with built-in PKRT purchase</p>
+                            <p>iOS & Android wallet<br>JazzCash/EasyPaisa direct<br>Push notifications</p>
                         </div>
                     </div>
                     <div class="roadmap-item">
                         <div class="roadmap-content">
                             <h4>Q4 2026</h4>
-                            <h3>PKR Off-Ramp</h3>
-                            <p>Direct PKRT to PKR conversion for recipients in Pakistan</p>
+                            <h3>Mass Adoption</h3>
+                            <p>Merchant partnerships<br>ATM integration<br>1M users target</p>
                         </div>
                     </div>
                 </div>
@@ -1648,32 +1539,31 @@
         </section>
 
         <!-- HOW TO BUY -->
-        <section class="how-to-buy" id="how-to-buy">
+        <section class="how-to-buy section">
             <div class="section-inner">
                 <div class="section-header">
                     <h2>How to <span>Buy</span></h2>
-                    <p>Get your PKRT in 4 simple steps</p>
                 </div>
                 <div class="steps-grid">
                     <div class="step-card">
                         <div class="step-number">1</div>
-                        <h3>Get BNB</h3>
-                        <p>Buy BNB from Binance, Coinbase, or any exchange. Send it to your MetaMask wallet.</p>
+                        <h3>Get Wallet</h3>
+                        <p>MetaMask, Trust Wallet, or any BNB Chain wallet</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">2</div>
-                        <h3>Connect Wallet</h3>
-                        <p>Go to Biswap.org or PancakeSwap.finance and connect your MetaMask wallet.</p>
+                        <h3>Add BNB</h3>
+                        <p>Buy BNB from any exchange</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">3</div>
-                        <h3>Swap BNB for PKRT</h3>
-                        <p>Paste our contract address, select the amount, and click Swap. Confirm in MetaMask.</p>
+                        <h3>Swap for PKRT</h3>
+                        <p>Use PancakeSwap or Biswap</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">4</div>
-                        <h3>Send & Save</h3>
-                        <p>Your PKRT is ready! Send it to family in Pakistan with just 0.1% fee.</p>
+                        <h3>Hold or Send</h3>
+                        <p>Hold for gains or send to family</p>
                     </div>
                 </div>
             </div>
@@ -1682,9 +1572,9 @@
         <!-- CONTRACT -->
         <section class="contract-section">
             <div class="contract-box">
-                <h3>📋 PKRT Contract Address</h3>
+                <h3>📝 Contract Address</h3>
                 <div class="contract-address">0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98</div>
-                <button class="copy-btn" onclick="copyContract()">📋 Copy Address</button>
+                <button class="copy-btn" onclick="copyContract()">📋 Copy</button>
             </div>
         </section>
 
@@ -1694,35 +1584,33 @@
                 <div class="footer-grid">
                     <div class="footer-brand">
                         <h3>PakRupee Token</h3>
-                        <p>The cryptocurrency built for Pakistani remittances. Send money home for 0.1% fee. Built on BNB Smart Chain for speed and security.</p>
-                        <p style="margin-top: 16px; color: var(--text-muted);">Contact: <a href="mailto:samsabirm@gmail.com" style="color: var(--primary);">samsabirm@gmail.com</a></p>
+                        <p>Revolutionizing cross-border remittances for Pakistanis worldwide. Fast, affordable, and secure.</p>
                     </div>
                     <div class="footer-col">
                         <h4>Quick Links</h4>
-                        <a href="#buy-pkrt">Buy PKRT</a>
+                        <a href="#buy">Buy PKRT</a>
                         <a href="#features">Features</a>
                         <a href="#roadmap">Roadmap</a>
-                        <a href="whitepaper.pdf">Whitepaper</a>
                     </div>
                     <div class="footer-col">
                         <h4>Resources</h4>
                         <a href="https://bscscan.com/token/0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank">BscScan</a>
                         <a href="https://dexscreener.com/bsc/0x05446b7f1b383bc0edcf7ab87f00848aadf8e86f" target="_blank">DexScreener</a>
-                        <a href="https://biswap.org" target="_blank">Biswap</a>
                     </div>
                     <div class="footer-col">
-                        <h4>Buy PKRT</h4>
-                        <a href="#buy-pkrt">Credit/Debit Card</a>
-                        <a href="https://biswap.org/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank">Biswap DEX</a>
-                        <a href="https://pancakeswap.finance/swap?outputCurrency=0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98" target="_blank">PancakeSwap</a>
+                        <h4>Community</h4>
+                        <a href="#">Twitter</a>
+                        <a href="#">Telegram</a>
+                        <a href="#">Discord</a>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p>© 2026 PakRupee Token. All rights reserved.</p>
+                    <p>&copy; 2026 PakRupee Token. All Rights Reserved.</p>
+                    <p class="footer-dedication">For <span>Rayan Wasim</span>, <span>Rohaan Wasim</span> and <span>Romaan Wasim</span> with Love ❤️</p>
                     <div class="social-links">
-                        <a href="#" title="Twitter">𝕏</a>
-                        <a href="#" title="Telegram">📱</a>
-                        <a href="#" title="Discord">💬</a>
+                        <a href="#">𝕏</a>
+                        <a href="#">📱</a>
+                        <a href="#">💬</a>
                     </div>
                 </div>
             </div>
@@ -1731,31 +1619,20 @@
 
     <!-- LOGIN MODAL -->
     <div class="login-overlay" id="loginOverlay">
-        <button class="login-close" onclick="hideLogin()">&times;</button>
         <div class="login-box">
-            <h2>Dashboard Login</h2>
-            <p>Access your PKRT dashboard</p>
-            <div class="login-error" id="loginError">Invalid username or password</div>
+            <button class="login-close" onclick="hideLogin()">&times;</button>
+            <h2>🔐 Dashboard</h2>
+            <p>Admin access only</p>
+            <div class="login-error" id="loginError">Invalid credentials</div>
             <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="username" placeholder="Enter username">
+                <input type="text" id="loginUsername" placeholder="Username">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="password" placeholder="Enter password">
+                <input type="password" id="loginPassword" placeholder="Password">
             </div>
             <button class="btn-primary" style="width: 100%;" onclick="attemptLogin()">Login</button>
-        </div>
-    </div>
-
-    <!-- SUCCESS MODAL -->
-    <div class="success-modal" id="successModal">
-        <div class="success-content">
-            <div class="success-icon">🎉</div>
-            <h2>Purchase Successful!</h2>
-            <p>Your PKRT has been sent to your wallet. Check your transaction on BscScan.</p>
-            <p style="font-family: monospace; font-size: 12px; color: var(--primary); margin: 20px 0;" id="txHash"></p>
-            <button class="btn-primary" style="width: 100%;" onclick="closeSuccessModal()">Done</button>
         </div>
     </div>
 
@@ -1765,160 +1642,105 @@
             <h1>📊 PKRT Dashboard</h1>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-
+        
         <div class="dashboard-tabs">
             <div class="tabs-nav">
                 <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
                 <button class="tab-btn" onclick="switchTab('transactions')">Transactions</button>
-                <button class="tab-btn" onclick="switchTab('social')">Social Tracker</button>
-                <button class="tab-btn" onclick="switchTab('api')">API Integration</button>
             </div>
-
-            <!-- OVERVIEW TAB -->
-            <div class="tab-content active" id="overview">
+            
+            <div class="tab-content active" id="tab-overview">
                 <div class="goal-tracker">
                     <div class="goal-header">
-                        <div>
-                            <div class="goal-title">🎯 Cashout Goal: $1,000,000</div>
-                            <p style="color: var(--text-muted); font-size: 14px;">When we hit $1M, we cash out!</p>
-                        </div>
-                        <div class="goal-current" id="totalValue">$0.00</div>
+                        <span class="goal-title">🎯 $1M Goal</span>
+                        <span class="goal-current" id="goalCurrent">$0</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" id="progressBar" style="width: 0.001%;">0.001%</div>
+                        <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
                     </div>
                     <div class="goal-stats">
                         <div class="goal-stat">
-                            <h4>Market Cap</h4>
-                            <div class="value gold" id="marketCap">$0.00</div>
+                            <h4>Current Value</h4>
+                            <div class="value gold" id="goalValue">$0</div>
                         </div>
                         <div class="goal-stat">
-                            <h4>24h Volume</h4>
-                            <div class="value green" id="volume24h">$0.00</div>
+                            <h4>Remaining</h4>
+                            <div class="value purple" id="goalRemaining">$1M</div>
                         </div>
                         <div class="goal-stat">
-                            <h4>Initial Investment</h4>
-                            <div class="value blue">$20.00</div>
+                            <h4>Holders</h4>
+                            <div class="value blue" id="goalHolders">0</div>
                         </div>
                         <div class="goal-stat">
-                            <h4>Total ROI</h4>
-                            <div class="value purple" id="roi">+0%</div>
+                            <h4>24h Txns</h4>
+                            <div class="value green" id="goalTxns">0</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="goal-stats" style="margin-bottom: 32px;">
-                    <div class="goal-stat">
-                        <h4>Wallet PKRT</h4>
-                        <div class="value green" id="walletPKRT">463,787,276</div>
-                    </div>
-                    <div class="goal-stat">
-                        <h4>Pool PKRT</h4>
-                        <div class="value gold" id="poolPKRT">536,212,724</div>
-                    </div>
-                    <div class="goal-stat">
-                        <h4>Pool BNB</h4>
-                        <div class="value blue" id="poolBNB">0.0146</div>
-                    </div>
-                    <div class="goal-stat">
-                        <h4>PKRT Price</h4>
-                        <div class="value purple" id="pkrtPrice">$0.00</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TRANSACTIONS TAB -->
-            <div class="tab-content" id="transactions">
-                <div class="tx-feed">
-                    <div class="tx-feed-header">
-                        <h3>⚡ Recent Transactions</h3>
-                        <span style="color: var(--text-muted); font-size: 14px;">From DexScreener</span>
-                    </div>
-                    <div id="txList"></div>
-                </div>
-            </div>
-
-            <!-- SOCIAL TRACKER TAB -->
-            <div class="tab-content" id="social">
-                <div class="tracker-section" style="margin-bottom: 32px;">
-                    <div class="tracker-header">
-                        <h3>📱 Social Media Status</h3>
-                    </div>
-                    <div class="platform-grid" id="platformGrid"></div>
-                </div>
-
+                
                 <div class="tracker-section">
                     <div class="tracker-header">
-                        <h3>📅 Posting Schedule</h3>
+                        <h3>📈 Live Market Data</h3>
                     </div>
-                    <table class="schedule-table">
-                        <thead>
-                            <tr>
-                                <th>Platform</th>
-                                <th>Frequency</th>
-                                <th>Best Time</th>
-                                <th>Content Type</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scheduleTable"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- API INTEGRATION TAB -->
-            <div class="tab-content" id="api">
-                <div class="tracker-section">
-                    <div class="tracker-header">
-                        <h3>🔌 Fiat-to-Crypto API Providers</h3>
-                    </div>
-                    <p style="color: var(--text-muted); margin-bottom: 24px;">To enable credit card and local payments, integrate one of these providers:</p>
-                    
                     <div class="platform-grid">
                         <div class="platform-card">
-                            <div class="platform-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">🔷</div>
+                            <div class="platform-icon" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark));">💰</div>
                             <div class="platform-info">
-                                <h4>Transak</h4>
-                                <p>Best for global coverage, supports 150+ countries</p>
+                                <h4>Market Cap</h4>
+                                <p id="dashMcap">Loading...</p>
                             </div>
-                            <span class="platform-status pending">Recommended</span>
                         </div>
                         <div class="platform-card">
-                            <div class="platform-icon" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">🌙</div>
+                            <div class="platform-icon" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));">📊</div>
                             <div class="platform-info">
-                                <h4>MoonPay</h4>
-                                <p>Easy integration, great UX</p>
+                                <h4>24h Volume</h4>
+                                <p id="dashVolume">Loading...</p>
                             </div>
-                            <span class="platform-status pending">Popular</span>
                         </div>
                         <div class="platform-card">
-                            <div class="platform-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">⚡</div>
+                            <div class="platform-icon" style="background: linear-gradient(135deg, #a855f7, #7c3aed);">💎</div>
                             <div class="platform-info">
-                                <h4>Ramp</h4>
-                                <p>Low fees, fast settlements</p>
+                                <h4>Liquidity</h4>
+                                <p id="dashLiquidity">Loading...</p>
                             </div>
-                            <span class="platform-status pending">Fast</span>
                         </div>
                         <div class="platform-card">
-                            <div class="platform-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">💎</div>
+                            <div class="platform-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">🔥</div>
                             <div class="platform-info">
-                                <h4>Simplex</h4>
-                                <p>Binance partner, reliable</p>
+                                <h4>Price</h4>
+                                <p id="dashPrice">Loading...</p>
                             </div>
-                            <span class="platform-status pending">Trusted</span>
                         </div>
                     </div>
-
-                    <div style="margin-top: 32px; padding: 24px; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                        <h4 style="margin-bottom: 16px;">📝 Integration Steps:</h4>
-                        <ol style="color: var(--text-muted); padding-left: 20px; line-height: 2;">
-                            <li>Sign up at <a href="https://transak.com" target="_blank" style="color: var(--primary);">transak.com</a></li>
-                            <li>Complete KYC as a business</li>
-                            <li>Get your API key from dashboard</li>
-                            <li>Add widget to website (copy-paste code)</li>
-                            <li>Test with small amounts</li>
-                            <li>Go live!</li>
-                        </ol>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="tab-transactions">
+                <div class="tx-feed">
+                    <div class="tx-feed-header">
+                        <span>🔄 Recent Transactions</span>
+                        <span style="color: var(--primary);">Live</span>
+                    </div>
+                    <div class="tx-item" id="tx1">
+                        <div class="tx-type">
+                            <div class="tx-type-icon buy">💰</div>
+                            <div><div style="font-weight: 600;">Loading...</div><div style="font-size: 11px; color: var(--text-muted);">Fetching...</div></div>
+                        </div>
+                        <div class="tx-amount buy">--</div>
+                    </div>
+                    <div class="tx-item" id="tx2">
+                        <div class="tx-type">
+                            <div class="tx-type-icon buy">💰</div>
+                            <div><div style="font-weight: 600;">Loading...</div><div style="font-size: 11px; color: var(--text-muted);">Fetching...</div></div>
+                        </div>
+                        <div class="tx-amount buy">--</div>
+                    </div>
+                    <div class="tx-item" id="tx3">
+                        <div class="tx-type">
+                            <div class="tx-type-icon buy">💰</div>
+                            <div><div style="font-weight: 600;">Loading...</div><div style="font-size: 11px; color: var(--text-muted);">Fetching...</div></div>
+                        </div>
+                        <div class="tx-amount buy">--</div>
                     </div>
                 </div>
             </div>
@@ -1926,340 +1748,305 @@
     </div>
 
     <script>
-        // ==========================================
-        // PKRT PRICE & CALCULATIONS
-        // ==========================================
-        let pkrtPrice = 0.000000053; // Current price
+        const CONTRACT = '0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98';
+        const PAIR = '0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f';
+        const PKR_RATE = 280;
         
-        function updatePkrtAmount() {
-            const usd = parseFloat(document.getElementById('usdAmount').value) || 0;
-            const pkrt = usd / pkrtPrice;
-            document.getElementById('pkrtAmount').value = pkrt.toFixed(2) + ' PKRT';
-        }
+        let currentPriceUsd = 0;
+        let lastTxHash = '';
         
-        document.getElementById('usdAmount').addEventListener('input', updatePkrtAmount);
-        updatePkrtAmount();
-
-        // ==========================================
-        // BUY FLOW STEPS
-        // ==========================================
-        let currentStep = 1;
-        let selectedPayment = 'card';
-        let recurringEnabled = false;
-        let recurringFrequency = 'monthly';
-
-        function goToStep(step) {
-            currentStep = step;
+        // Format tiny prices nicely (e.g., $0.0⁷1234 instead of $0.00000001234)
+        function formatPrice(price) {
+            if (!price || price === 0) return '$0';
+            if (price >= 1) return '$' + price.toFixed(2);
+            if (price >= 0.01) return '$' + price.toFixed(4);
+            if (price >= 0.0001) return '$' + price.toFixed(6);
             
-            // Hide all step content
-            document.getElementById('step1-content').style.display = 'none';
-            document.getElementById('step2-content').style.display = 'none';
-            document.getElementById('step3-content').style.display = 'none';
-            
-            // Show current step
-            document.getElementById('step' + step + '-content').style.display = 'block';
-            
-            // Update step indicators
-            for (let i = 1; i <= 3; i++) {
-                const stepEl = document.getElementById('step' + i);
-                stepEl.classList.remove('active', 'completed');
-                if (i < step) stepEl.classList.add('completed');
-                else if (i === step) stepEl.classList.add('active');
+            // For very small numbers, use superscript notation
+            const str = price.toString();
+            if (str.includes('e')) {
+                const exp = parseInt(str.split('e-')[1]);
+                const mantissa = parseFloat(str.split('e')[0]).toFixed(4);
+                return `$0.0<sup>${exp-1}</sup>${mantissa.replace('0.', '')}`;
             }
             
-            // Update confirmation if step 3
-            if (step === 3) {
-                const usd = parseFloat(document.getElementById('usdAmount').value) || 50;
-                const pkrt = usd / pkrtPrice;
-                const fee = usd * 0.029;
+            // Count zeros after decimal
+            const zeros = str.match(/0\.0+/);
+            if (zeros) {
+                const zeroCount = zeros[0].length - 2;
+                const significant = str.replace(zeros[0], '');
+                return `$0.0<sup>${zeroCount}</sup>${significant.substring(0, 4)}`;
+            }
+            
+            return '$' + price.toFixed(8);
+        }
+        
+        function formatCurrency(val) {
+            if (!val || val === 0) return '$0';
+            if (val >= 1e6) return '$' + (val / 1e6).toFixed(2) + 'M';
+            if (val >= 1e3) return '$' + (val / 1e3).toFixed(1) + 'K';
+            return '$' + val.toFixed(2);
+        }
+        
+        function formatTimeAgo(ts) {
+            const diff = Math.floor(Date.now() / 1000) - parseInt(ts);
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            return Math.floor(diff / 86400) + 'd ago';
+        }
+        
+        // Fetch real data
+        async function fetchData() {
+            // Try multiple endpoints with CORS fallback
+            const endpoints = [
+                `https://api.dexscreener.com/latest/dex/tokens/${CONTRACT}`,
+                `https://corsproxy.io/?${encodeURIComponent(`https://api.dexscreener.com/latest/dex/tokens/${CONTRACT}`)}`
+            ];
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const res = await fetch(endpoint);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    
+                    // Find BSC pair from results
+                    let p = null;
+                    if (data.pairs && data.pairs.length > 0) {
+                        p = data.pairs.find(pair => pair.chainId === 'bsc') || data.pairs[0];
+                    }
+                    
+                    if (p) {
+                    currentPriceUsd = parseFloat(p.priceUsd) || 0;
+                    const pricePkr = currentPriceUsd * PKR_RATE;
+                    const mcap = p.fdv || 0;
+                    const vol = p.volume?.h24 || 0;
+                    const liq = p.liquidity?.usd || 0;
+                    const change24 = p.priceChange?.h24 || 0;
+                    const change7d = p.priceChange?.h7d || 0;
+                    const txns = p.txns?.h24 || 0;
+                    
+                    // Update ticker
+                    document.getElementById('tickerPrice').innerHTML = formatPrice(currentPriceUsd);
+                    document.getElementById('tickerMcap').textContent = formatCurrency(mcap);
+                    document.getElementById('tickerVolume').textContent = formatCurrency(vol);
+                    
+                    const changeEl = document.getElementById('tickerChange');
+                    changeEl.textContent = (change24 >= 0 ? '+' : '') + change24.toFixed(1) + '%';
+                    changeEl.className = 'ticker-value ' + (change24 >= 0 ? 'green' : 'red');
+                    
+                    // Update hero
+                    document.getElementById('heroPrice').innerHTML = formatPrice(currentPriceUsd);
+                    document.getElementById('heroPricePkr').textContent = 'PKR: ' + pricePkr.toFixed(4);
+                    
+                    const h24El = document.getElementById('hero24h');
+                    h24El.textContent = (change24 >= 0 ? '+' : '') + change24.toFixed(1) + '%';
+                    h24El.className = 'value ' + (change24 >= 0 ? 'positive' : 'negative');
+                    
+                    const h7dEl = document.getElementById('hero7d');
+                    h7dEl.textContent = (change7d >= 0 ? '+' : '') + change7d.toFixed(1) + '%';
+                    h7dEl.className = 'value ' + (change7d >= 0 ? 'positive' : 'negative');
+                    
+                    // Update stats
+                    document.getElementById('statMcap').textContent = formatCurrency(mcap);
+                    document.getElementById('statVolume').textContent = formatCurrency(vol);
+                    document.getElementById('statLiq').textContent = formatCurrency(liq);
+                    
+                    // Update converter rate
+                    document.getElementById('rateInfo').innerHTML = 
+                        `1 PKRT = ${formatPrice(currentPriceUsd)} = PKR ${pricePkr.toFixed(6)}`;
+                    
+                    // Update dashboard
+                    const progress = Math.min((mcap / 1000000) * 100, 100);
+                    document.getElementById('goalCurrent').textContent = formatCurrency(mcap);
+                    document.getElementById('progressFill').style.width = progress + '%';
+                    document.getElementById('progressFill').textContent = progress.toFixed(2) + '%';
+                    document.getElementById('goalValue').textContent = formatCurrency(mcap);
+                    document.getElementById('goalRemaining').textContent = formatCurrency(Math.max(0, 1000000 - mcap));
+                    document.getElementById('goalTxns').textContent = txns;
+                    
+                    document.getElementById('dashMcap').textContent = formatCurrency(mcap);
+                    document.getElementById('dashVolume').textContent = formatCurrency(vol);
+                    document.getElementById('dashLiquidity').textContent = formatCurrency(liq);
+                    document.getElementById('dashPrice').innerHTML = formatPrice(currentPriceUsd);
+                        return; // Success, exit function
+                    }
+                } catch (e) {
+                    console.error('API error for endpoint:', endpoint, e);
+                    continue; // Try next endpoint
+                }
+            }
+            // All endpoints failed
+            console.error('All API endpoints failed');
+            document.getElementById('tickerPrice').textContent = 'See Chart';
+            document.getElementById('tickerMcap').textContent = '---';
+            document.getElementById('tickerVolume').textContent = '---';
+            document.getElementById('tickerChange').textContent = '---';
+        }
+        
+        // Fetch transactions
+        async function fetchTxs() {
+            try {
+                const res = await fetch(`https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${CONTRACT}&page=1&offset=10&sort=desc`);
+                const data = await res.json();
                 
-                document.getElementById('confirmAmount').textContent = '$' + usd.toFixed(2);
-                document.getElementById('confirmPKRT').textContent = pkrt.toFixed(2) + ' PKRT';
-                document.getElementById('confirmPayment').textContent = selectedPayment === 'card' ? 'Credit/Debit Card' : 
-                    selectedPayment === 'bank' ? 'Bank Transfer' : 
-                    selectedPayment.charAt(0).toUpperCase() + selectedPayment.slice(1);
-                document.getElementById('confirmFee').textContent = '$' + fee.toFixed(2);
+                if (data.status === '1' && data.result) {
+                    for (let i = 0; i < 3 && i < data.result.length; i++) {
+                        const tx = data.result[i];
+                        const amt = (parseFloat(tx.value) / 1e18).toLocaleString('en-US', {maximumFractionDigits: 0});
+                        const time = formatTimeAgo(tx.timeStamp);
+                        const isBuy = tx.to.toLowerCase().includes(PAIR.toLowerCase().slice(0, 10));
+                        
+                        document.getElementById('tx' + (i + 1)).innerHTML = `
+                            <div class="tx-type">
+                                <div class="tx-type-icon ${isBuy ? 'buy' : 'sell'}">${isBuy ? '💰' : '📤'}</div>
+                                <div><div style="font-weight: 600;">${isBuy ? 'BUY' : 'SELL'}</div><div style="font-size: 11px; color: var(--text-muted);">${time}</div></div>
+                            </div>
+                            <div class="tx-amount ${isBuy ? 'buy' : 'sell'}">${isBuy ? '+' : '-'}${amt}</div>
+                        `;
+                    }
+                    
+                    if (lastTxHash && data.result[0].hash !== lastTxHash) {
+                        showAlert((parseFloat(data.result[0].value) / 1e18).toLocaleString());
+                    }
+                    lastTxHash = data.result[0].hash;
+                }
+            } catch (e) {
+                console.error('TX fetch error:', e);
             }
         }
-
-        function selectPayment(el, method) {
-            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedPayment = method;
+        
+        // Fetch holders count
+        async function fetchHolders() {
+            try {
+                const res = await fetch(`https://api.bscscan.com/api?module=token&action=tokenholderlist&contractaddress=${CONTRACT}&page=1&offset=1`);
+                // BSCScan free API doesn't give total holders easily, so we'll estimate or skip
+            } catch (e) {}
         }
-
-        function toggleRecurring() {
-            recurringEnabled = !recurringEnabled;
-            const toggle = document.getElementById('recurringToggle');
-            const options = document.getElementById('recurringOptions');
-            
-            toggle.classList.toggle('active');
-            options.classList.toggle('show');
+        
+        // Convert PKR to PKRT
+        function convertPKR() {
+            const pkr = parseFloat(document.getElementById('pkrAmount').value) || 0;
+            const pkrt = currentPriceUsd > 0 ? pkr / (currentPriceUsd * PKR_RATE) : 0;
+            document.getElementById('pkrtAmount').textContent = pkrt.toLocaleString('en-US', {maximumFractionDigits: 0});
         }
-
-        function selectRecurring(el, frequency) {
-            document.querySelectorAll('.recurring-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            recurringFrequency = frequency;
+        
+        // QR Code
+        function generateQR() {
+            const container = document.getElementById('qrCodeContainer');
+            container.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://bscscan.com/token/${CONTRACT}" alt="QR" style="width:150px;height:150px;display:block;">`;
         }
-
-        function completePurchase() {
-            // Show success modal
-            const modal = document.getElementById('successModal');
-            const txHash = '0x' + Math.random().toString(16).substr(2, 64);
-            document.getElementById('txHash').textContent = 'TX: ' + txHash.substr(0, 20) + '...' + txHash.substr(-20);
-            modal.classList.add('show');
-            
-            // Reset form
-            setTimeout(() => {
-                goToStep(1);
-            }, 1000);
-        }
-
-        function closeSuccessModal() {
-            document.getElementById('successModal').classList.remove('show');
-        }
-
-        // ==========================================
-        // WALLET CONNECT
-        // ==========================================
-        async function connectWallet(walletType) {
-            if (walletType === 'metamask' && typeof window.ethereum !== 'undefined') {
+        
+        // Wallet connect
+        async function connectMetaMask() {
+            if (typeof window.ethereum !== 'undefined') {
                 try {
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    document.getElementById('walletAddress').value = accounts[0];
-                    alert('Wallet connected: ' + accounts[0].substr(0, 10) + '...');
-                } catch (error) {
-                    alert('Connection failed. Please try again.');
+                    alert('✅ Connected: ' + accounts[0].substring(0, 6) + '...');
+                    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                    if (chainId !== '0x38') {
+                        try {
+                            await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x38' }] });
+                        } catch (e) {
+                            alert('Please switch to BNB Chain (ID: 56)');
+                        }
+                    }
+                } catch (e) {
+                    alert('Connection failed');
                 }
             } else {
-                alert(walletType.charAt(0).toUpperCase() + walletType.slice(1) + ' connection would open here. Integration required.');
+                window.open('https://pancakeswap.finance/swap?outputCurrency=' + CONTRACT + '&chain=bsc', '_blank');
             }
         }
-
-        // ==========================================
-        // QR CODE GENERATION
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof QRCode !== 'undefined') {
-                QRCode.toCanvas(document.createElement('canvas'), 'https://samsabirm-collab.github.io/pakrupee.github.io/#buy-pkrt', {
-                    width: 168,
-                    margin: 2
-                }, function(error, canvas) {
-                    if (!error) {
-                        document.getElementById('qrCode').appendChild(canvas);
-                    }
-                });
-            }
-        });
-
-        // ==========================================
-        // AUTHENTICATION
-        // ==========================================
-        const CREDENTIALS = {
-            username: 'samsabirm',
-            password: 'Sabr2026!'
-        };
-
-        function showLogin() {
-            document.getElementById('loginOverlay').classList.add('show');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
+        
+        // Toggle functions
+        function togglePakistan(e) {
+            e.preventDefault();
+            document.getElementById('pakOptions').classList.toggle('show');
+            document.getElementById('usOptions').classList.remove('show');
+        }
+        
+        function toggleUS(e) {
+            e.preventDefault();
+            document.getElementById('usOptions').classList.toggle('show');
+            document.getElementById('pakOptions').classList.remove('show');
+        }
+        
+        function toggleMoreWallets() {
+            document.getElementById('moreWallets').classList.toggle('show');
+        }
+        
+        // Auth
+        function showLogin() { document.getElementById('loginOverlay').classList.add('show'); }
+        function hideLogin() { 
+            document.getElementById('loginOverlay').classList.remove('show'); 
             document.getElementById('loginError').style.display = 'none';
         }
-
-        function hideLogin() {
-            document.getElementById('loginOverlay').classList.remove('show');
-        }
-
+        
         function attemptLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === CREDENTIALS.username && password === CREDENTIALS.password) {
+            if (document.getElementById('loginUsername').value === 'samsabirm' && 
+                document.getElementById('loginPassword').value === 'Sabr2026!') {
                 hideLogin();
-                showDashboard();
+                document.getElementById('mainPage').classList.add('hide');
+                document.getElementById('dashboardPage').classList.add('show');
             } else {
                 document.getElementById('loginError').style.display = 'block';
             }
         }
-
-        function showDashboard() {
-            document.getElementById('mainPage').classList.add('hide');
-            document.getElementById('dashboardPage').classList.add('show');
-        }
-
-        function showMainPage() {
-            document.getElementById('mainPage').classList.remove('hide');
-            document.getElementById('dashboardPage').classList.remove('show');
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('[onclick*="overview"]').classList.add('active');
-            document.getElementById('overview').classList.add('active');
-        }
-
+        
         function logout() {
-            showMainPage();
+            document.getElementById('dashboardPage').classList.remove('show');
+            document.getElementById('mainPage').classList.remove('hide');
         }
-
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') attemptLogin();
-        });
-
-        // ==========================================
-        // TAB SWITCHING
-        // ==========================================
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        
+        function showMainPage() { logout(); }
+        
+        function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             event.target.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
         }
-
-        // ==========================================
-        // DASHBOARD DATA
-        // ==========================================
-        const CONFIG = {
-            TOKEN_CONTRACT: '0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98',
-            POOL_ADDRESS: '0x05446b7f1b383bc0EDcF7Ab87F00848AADf8e86f',
-            TOTAL_SUPPLY: 1000000000,
-            INITIAL_INVESTMENT: 20,
-            GOAL: 1000000
-        };
-
-        let state = {
-            bnbPrice: 628,
-            poolBNB: 0.014592001312212914,
-            poolPKRT: 536212723.85752566,
-            walletPKRT: 463787276.14247434,
-            volume24h: 0.072,
-            transactions: [
-                { type: 'buy', amount: 22586941, usd: 0.072178, time: '3h 8m ago', hash: 'c7b72f' },
-                { type: 'buy', amount: 53932146, usd: 0.072008, time: '3h 8m ago', hash: 'c7b72f' },
-                { type: 'buy', amount: 64844549, usd: 0.071674, time: '3h 9m ago', hash: 'c7b72f' },
-                { type: 'buy', amount: 80002383, usd: 0.071372, time: '3h 9m ago', hash: 'c7b72f' },
-                { type: 'buy', amount: 101905674, usd: 0.071100, time: '3h 10m ago', hash: 'c7b72f' },
-                { type: 'buy', amount: 133255954, usd: 0.088575, time: '3h 12m ago', hash: 'c7b72f' },
-                { type: 'sell', amount: 463787276, usd: 5.57, time: '3h 14m ago', hash: 'c7b72f' }
-            ]
-        };
-
-        function calculateValues() {
-            state.pkrtPrice = (state.poolBNB * state.bnbPrice) / state.poolPKRT;
-            state.marketCap = state.pkrtPrice * CONFIG.TOTAL_SUPPLY;
-            state.totalValue = (state.walletPKRT + state.poolPKRT * 0.999) * state.pkrtPrice;
-            pkrtPrice = state.pkrtPrice;
-        }
-
-        function formatCurrency(num) {
-            if (num >= 1000000) return '$' + (num / 1000000).toFixed(2) + 'M';
-            if (num >= 1000) return '$' + (num / 1000).toFixed(2) + 'K';
-            if (num >= 1) return '$' + num.toFixed(2);
-            return '$' + num.toFixed(8);
-        }
-
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(2) + 'K';
-            return num.toFixed(2);
-        }
-
-        function updateDashboard() {
-            calculateValues();
-
-            document.getElementById('totalValue').textContent = formatCurrency(state.totalValue);
-            document.getElementById('marketCap').textContent = formatCurrency(state.marketCap);
-            document.getElementById('volume24h').textContent = formatCurrency(state.volume24h);
-            document.getElementById('pkrtPrice').textContent = formatCurrency(state.pkrtPrice);
-
-            const roi = ((state.totalValue - CONFIG.INITIAL_INVESTMENT) / CONFIG.INITIAL_INVESTMENT * 100);
-            document.getElementById('roi').textContent = (roi >= 0 ? '+' : '') + roi.toFixed(2) + '%';
-
-            const progress = (state.totalValue / CONFIG.GOAL * 100);
-            document.getElementById('progressBar').style.width = Math.max(progress, 0.1) + '%';
-            document.getElementById('progressBar').textContent = progress.toFixed(6) + '%';
-
-            document.getElementById('walletPKRT').textContent = formatNumber(state.walletPKRT);
-            document.getElementById('poolPKRT').textContent = formatNumber(state.poolPKRT);
-            document.getElementById('poolBNB').textContent = state.poolBNB.toFixed(8);
-        }
-
-        // ==========================================
-        // TRANSACTION FEED
-        // ==========================================
-        function renderTransactions() {
-            const container = document.getElementById('txList');
-            container.innerHTML = state.transactions.map(tx => `
-                <div class="tx-item">
-                    <div class="tx-type">
-                        <div class="tx-type-icon ${tx.type}">${tx.type === 'buy' ? '💰' : '📤'}</div>
-                        <div>
-                            <h4>${tx.type.toUpperCase()}</h4>
-                            <p style="color: var(--text-muted); font-size: 12px;">${tx.time}</p>
-                        </div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="tx-amount ${tx.type}">${tx.type === 'buy' ? '+' : '-'}${formatNumber(tx.amount)} PKRT</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">$${tx.usd.toFixed(2)}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ==========================================
-        // SOCIAL MEDIA TRACKER
-        // ==========================================
-        const platforms = [
-            { name: 'X (Twitter)', icon: '𝕏', class: 'twitter', status: 'pending', bestTime: '9AM, 12PM, 6PM EST', frequency: '3-5x daily', contentType: 'News, memes, updates' },
-            { name: 'Telegram', icon: '📱', class: 'telegram', status: 'pending', bestTime: 'Anytime', frequency: '2-3x daily', contentType: 'Announcements, support' },
-            { name: 'Discord', icon: '💬', class: 'discord', status: 'not-started', bestTime: 'Evening EST', frequency: '1-2x daily', contentType: 'Community, AMAs' },
-            { name: 'Reddit', icon: '🔴', class: 'reddit', status: 'not-started', bestTime: '9AM-12PM EST', frequency: '1-2x weekly', contentType: 'Detailed posts, AMAs' },
-            { name: 'Medium', icon: '📝', class: 'medium', status: 'not-started', bestTime: 'Tuesday, Thursday', frequency: '1x weekly', contentType: 'Articles, tutorials' },
-            { name: 'Facebook', icon: '📘', class: 'facebook', status: 'not-started', bestTime: '1-4PM EST', frequency: '1-2x daily', contentType: 'Updates, news' },
-            { name: 'LinkedIn', icon: '💼', class: 'linkedin', status: 'not-started', bestTime: '7-8AM, 5-6PM EST', frequency: '2-3x weekly', contentType: 'Professional updates' },
-            { name: 'GitHub', icon: '💻', class: 'github', status: 'done', bestTime: 'Anytime', frequency: 'As needed', contentType: 'Code, documentation' }
-        ];
-
-        function renderSocialTracker() {
-            const grid = document.getElementById('platformGrid');
-            grid.innerHTML = platforms.map(p => `
-                <div class="platform-card">
-                    <div class="platform-icon ${p.class}">${p.icon}</div>
-                    <div class="platform-info">
-                        <h4>${p.name}</h4>
-                        <p>${p.frequency}</p>
-                    </div>
-                    <span class="platform-status ${p.status}">${p.status.replace('-', ' ')}</span>
-                </div>
-            `).join('');
-
-            const table = document.getElementById('scheduleTable');
-            table.innerHTML = platforms.map(p => `
-                <tr>
-                    <td><strong>${p.name}</strong></td>
-                    <td>${p.frequency}</td>
-                    <td>${p.bestTime}</td>
-                    <td>${p.contentType}</td>
-                    <td><span class="platform-status ${p.status}">${p.status.replace('-', ' ')}</span></td>
-                </tr>
-            `).join('');
-        }
-
-        // ==========================================
-        // UTILITIES
-        // ==========================================
+        
         function copyContract() {
-            navigator.clipboard.writeText('0xA1881b40A6fEc62bB5dDc40bF665b0c86D751c98');
-            alert('Contract address copied!');
+            navigator.clipboard.writeText(CONTRACT);
+            document.querySelector('.copy-btn').textContent = '✓ Copied!';
+            setTimeout(() => document.querySelector('.copy-btn').textContent = '📋 Copy', 2000);
         }
-
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', function() {
-            updateDashboard();
-            renderTransactions();
-            renderSocialTracker();
+        
+        function showAlert(amt) {
+            document.getElementById('alertBanner').textContent = `🎉 NEW BUY! ${amt} PKRT`;
+            document.getElementById('alertBanner').classList.add('show');
+            // Play chime
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const g = ctx.createGain();
+                g.connect(ctx.destination);
+                g.gain.value = 0.1;
+                [523, 659, 784].forEach((f, i) => {
+                    const o = ctx.createOscillator();
+                    const og = ctx.createGain();
+                    o.connect(og);
+                    og.connect(g);
+                    o.frequency.value = f;
+                    o.type = 'sine';
+                    og.gain.setValueAtTime(0, ctx.currentTime + i * 0.05);
+                    og.gain.linearRampToValueAtTime(0.2, ctx.currentTime + i * 0.05 + 0.05);
+                    og.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.05 + 0.4);
+                    o.start(ctx.currentTime + i * 0.05);
+                    o.stop(ctx.currentTime + i * 0.05 + 0.5);
+                });
+            } catch(e) {}
+            setTimeout(() => document.getElementById('alertBanner').classList.remove('show'), 5000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateQR();
+            fetchData();
+            fetchTxs();
+            setInterval(fetchData, 60000);
+            setInterval(fetchTxs, 60000);
         });
     </script>
 </body>
